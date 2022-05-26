@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  SQL-Server:
+    image: mcr.microsoft.com/mssql/server:2022-latest # Or whatever version you want
+    container_name: SQL_Server_Dev_Environment
+    restart: unless-stopped
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=-Your-Strong!Password@Here%
+      # - MSSQL_PID=Developer
+      # - MSSQL_AGENT_ENABLED=True
+
+# I cant actually get this to work due to our Windows auth/active directory situation at Cooke...
+# i.e from within the container, my script doesn't know how to authenticate to our production SQL server
+  # python:
+  #   container_name: SQL_Server_Python_Script
+  #   build: ./
+  #   command: python3 ./SQL_Server_ForLoop.py
