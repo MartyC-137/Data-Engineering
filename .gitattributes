@@ -1,0 +1,4 @@
+*.sql linguist-detectable=true
+*.yaml linguist-detectable=true
+*.yaml linguist-language=YAML
+*.ipynb linguist-detectable=false
