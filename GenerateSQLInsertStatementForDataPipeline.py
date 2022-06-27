@@ -45,6 +45,7 @@ for column in df.columns[:-1]:
         print(f"\"{column}\",")
 
 print(f"\"{df.columns[-1]}\" \n)")
+print('values')
 
 # prints one ? for every column in the Snowflake table
 for i in range(len(df.columns[:-1])):
