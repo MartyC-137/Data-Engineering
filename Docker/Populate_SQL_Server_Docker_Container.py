@@ -69,8 +69,8 @@ for table in my_prod_db_tables:
         df_sql = pd.read_sql(query, prod_cnxn)
 
         #write
-        df_sql.to_sql(f'{table}', schema=f'{docker_schema}', 
-                    con = engine, chunksize=1000, 
-                    index=False, if_exists='replace')
+        df_sql.to_sql(f'{table}', schema= f'{docker_schema}', 
+                    con = engine, chunksize = 1000, 
+                    index = False, if_exists = 'replace')
     except Exception:
         print(f'failed to insert {table} to docker container')
