@@ -14,6 +14,7 @@ import pandas as pd
 #server credentials
 prod_server = 'my_production_server'
 prod_db = 'my_prod_db'
+prod_schema = 'dbo'
 docker_server = 'localhost'
 docker_db = 'my_prod_db'
 docker_schema = 'dbo'
@@ -31,15 +32,22 @@ prod_cnxn = pyodbc.connect(
 )
 cursor = prod_cnxn.cursor()
 
-#docker connection
+#sql connection - docker 
 docker_cnxn = pyodbc.connect(
-    # Trusted_Connection= 'Yes',
     Driver= '{SQL Server}',
     Server= docker_server,
     UID = username,
     PWD = password
     # database= db
 )
+
+docker_connection = "DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost;DATABASE=test_db;UID=sa;PWD=<your_strong_password_here>"
+connection_url = URL.create("mssql+pyodbc", 
+                            query={"odbc_connect": docker_connection})
+
+engine = create_engine(connection_url, fast_executemany = True)
+
+#-----------------------------------------------
 
 docker_cnxn.autocommit = True
 docker_cnxn.execute('''
@@ -56,18 +64,12 @@ my_prod_db_tables = [item for item in my_prod_db_tables if not any(char.isdigit(
 for table in my_prod_db_tables:
     try:
         #read
-        query = f'select top 1000 * from {docker_db}.{docker_schema}.{table}'
+        query = f'select top 1000 * from {prod_db}.{prod_schema}.{table}'
         results = cursor.execute(query).fetchall()
         df_sql = pd.read_sql(query, prod_cnxn)
 
         #write
-        docker_connection = "DRIVER={ODBC Driver 17 for SQL Server};SERVER=localhost;DATABASE=test_db;UID=sa;PWD=<your_strong_password_here>"
-        connection_url = URL.create("mssql+pyodbc", 
-                                    query={"odbc_connect": docker_connection})
-
-        engine = create_engine(connection_url, fast_executemany = True)
-
-        df_sql.to_sql(f'{table}', schema='dbo', 
+        df_sql.to_sql(f'{table}', schema=f'{docker_schema}', 
                     con = engine, chunksize=1000, 
                     index=False, if_exists='replace')
     except Exception:
