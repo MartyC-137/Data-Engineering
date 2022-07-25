@@ -1,6 +1,7 @@
 FROM python:3.8-slim
 
 # install system dependencies
+RUN apt update 
 RUN apt-get update -y && apt-get install -y gcc curl gnupg build-essential
 RUN apt-get update -y && apt-get install -y unixodbc unixodbc-dev tdsodbc freetds-common freetds-bin freetds-dev
 

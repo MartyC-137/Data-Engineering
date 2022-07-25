@@ -13,19 +13,9 @@ services:
       # - MSSQL_PID=Developer
       # - MSSQL_AGENT_ENABLED=True
 
-  python:
-    container_name: SQL_Server_Python_Script
-    build: ./
-    command: python3 ./SQL_Server_ForLoop.py
-
+# I cant actually get this to work due to our Windows auth/active directory situation at Cooke...
+# i.e from within the container, my script doesn't know how to authenticate to our production SQL server
   # python:
-  #   image: python:latest
-  #   ports:
-  #     - '80:80'
-  #   volumes:
-  #     - type: bind
-  #     - source: .
-  #   links:
-  #     - 'SQL-Server'
+  #   container_name: SQL_Server_Python_Script
+  #   build: ./
   #   command: python3 ./SQL_Server_ForLoop.py
-  
