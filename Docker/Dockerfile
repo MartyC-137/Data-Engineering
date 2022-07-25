@@ -1,3 +1,4 @@
+# I wrote this Dockerfile to run the Python script inside of my container, but it doesn't work because of our Windows auth at work
 FROM python:3.8-slim
 
 # install system dependencies
