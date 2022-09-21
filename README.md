@@ -1,10 +1,10 @@
 # Data Engineering Portfolio
 
 <div id="header" align="center">
-    <img src="https://i.redd.it/w1m3or6z66j51.jpg" width="420"/>
+    <img src="https://i.redd.it/w1m3or6z66j51.jpg" width="400"/>
 </div>
 
-<!-- <img src="https://media.giphy.com/media/vi9ob0h5bKmUU/giphy.gif" width="420"/> -->
+<!-- <img src="https://media.giphy.com/media/vi9ob0h5bKmUU/giphy.gif" width="400"/> -->
 
 <!-- ## Code examples to accompany my resume -->
 
