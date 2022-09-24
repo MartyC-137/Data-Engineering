@@ -23,6 +23,7 @@ over (
   partition by jsn.value:Id
   order by jsn.value:Id) = 1;
 
+/*
 Input:
 Row  JSON_DATA
 1    [{"Id": 1,"TotalAmount": 42.75, "Cash": true,"TransactionDate": "2022-03-25T18:44:46.54"}]
@@ -35,3 +36,4 @@ ID Total_Amount  Cash   Transaction_Date
 1  42.75         True   2022-03-25
 2  57.99         False  2022-03-28
 3  100.25        False  2022-04-01
+*/
