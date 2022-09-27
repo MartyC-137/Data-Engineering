@@ -14,7 +14,7 @@
 Azure DevOps is a powerful development tool that allows us to track code changes, automate code deployments and link those code changes to work tasks. Azure DevOps includes Boards, Repos, and Pipelines. The Azure DevOps code repository uses a tool called `Git` in the background. This guide will teach you how to use the repository functionality in a Microsoft application called Visual Studio Code. 
 Git is a version control system – you might be familiar with tracked changes in Word. Think of Git like tracked changes, but for code. You may have heard the terms ‘Source Control’ or ‘Version Control’, and I will use these terms in the document – they are all referring to the same thing, tracking code changes using a tool called `Git`.
 
-Note that how to guides for Git extensively recommend using the shell for git - In my experience, that can be very confusing and unapproachable for beginners. I have written this guide in the hopes of making Git approachable for you, and I do encourage you to use the shell once you understand git concepts - you will find it is faster, offers more significantly more functionality, and coding stuff is fun! :smiley:
+Note that how to guides for Git extensively recommend using the shell for git - In my experience, that can be very confusing and unapproachable for beginners. I have written this guide in the hopes of making Git approachable for you, and I do encourage you to use the shell once you understand git concepts - you will find it is faster, offers significantly more functionality, and coding stuff is fun! :smiley:
 
 **[Link to my personal Github](https://github.com/MartyC-137)**
 
