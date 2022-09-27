@@ -107,7 +107,7 @@ Git has a concept called **branching** which we will use here. In our repo we ha
 
 ![VSCode_HelloWorldFile](images/VSCode_HelloWorldFile.png)
 
-4) Copy the following code into your `Hello_World.sql`:
+4) Copy the following code into your `Hello_World.sql` file:
 
 ```sql
 CREATE TABLE HELLO_WORLD(
