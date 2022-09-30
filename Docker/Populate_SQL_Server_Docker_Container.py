@@ -33,15 +33,17 @@ password = 'Your-Strong!Password@Here%'
 driver = 'SQL Server'
 schema = 'dbo'
 
+def sqlalchemy_cnxn(driver, server, db):
+    connection = f"DRIVER={driver};SERVER={server};DATABASE={db}"
+    url = URL.create("mssql+pyodbc", query={"odbc_connect": connection})
+    engine = create_engine(url)
+    return engine
+
 # SQLAlchemy for Prod
-prod_connection = f"DRIVER={driver};SERVER={prod_server};DATABASE={prod_db}"
-prod_connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": prod_connection})
-prod_engine = create_engine(prod_connection_url)
+prod_engine = sqlalchemy_cnxn(driver, prod_server, prod_db)
 
 # SQLAlchemy for Docker
-docker_connection = f"DRIVER={driver};SERVER={docker_server};UID={username};PWD={password}"
-docker_connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": docker_connection})
-docker_engine = create_engine(docker_connection_url, fast_executemany = True)
+docker_engine = sqlalchemy_cnxn(driver, docker_server, docker_db)
 
 docker_engine.execute('''
 if not exists (select 1 from sys.databases where name = N'test_db')
@@ -57,9 +59,7 @@ prod_tables = [table for table in prod_engine.table_names()]
 prod_tables = [item for item in prod_tables if not any(character.isdigit() for character in item)]
 
 # This block may seem redundant, but is needed to connect to the database now that we have created it
-docker_connection = f"DRIVER={driver};SERVER={docker_server};DATABASE={docker_db};UID={username};PWD={password}"
-docker_connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": docker_connection})
-docker_engine = create_engine(docker_connection_url, fast_executemany = True)
+docker_engine = sqlalchemy_cnxn(driver, docker_server, docker_db)
 
 """iterate over each table to populate the Docker container
 Note that this takes ~1 min per 50 tables"""
