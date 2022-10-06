@@ -1,0 +1,9 @@
+snowflake-snowpark-python
+pandas
+polars
+plotly
+matplotlib
+seaborn
+SQLalchemy
+ipykernel
+scikit-learn

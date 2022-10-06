@@ -50,6 +50,7 @@ for c in df_sql.columns:
          'data type = {}'.format(df_sql[c].dtype))
 
 #object == varchar
+"""
 Company maximum record length = 18 characters , data type = object
 Company_Key maximum record length = 4 characters , data type = object
 Site_Key maximum record length = 4 characters , data type = object
@@ -72,3 +73,4 @@ Lot_Date maximum record length = 10 characters , data type = datetime64[ns]
 Lot_Age maximum record length = 7 characters , data type = float64
 Weight maximum record length = 18 characters , data type = float64
 Cases maximum record length = 9 characters , data type = float64
+"""

@@ -14,6 +14,9 @@ import os, pyodbc
 import pandas as pd
 from snowflake import connector
 
+from dotenv import load_dotenv
+load_dotenv()
+
 #set all rows and columns visible
 #pd.set_option('display.max_columns', None)
 #pd.set_option('display.max_rows', None)
@@ -69,12 +72,11 @@ df_sf.to_csv('FXRates.csv', header = False, index = False)
 # ------------------------------------------------------------------
 """Step 3: Write data to Snowflake """
 #Establish connection to Cooke Snowflake 
-cnxn = connector.connect(user = 'your_snowflake_account',
-                              password = 'your_password',
-                              account = 'ab12345.canada-central.azure',
-                              role = 'SYSADMIN',
+cnxn = connector.connect(user = os.getenv('SNOWFLAKE_USER'),
+                              password = os.getenv('SNOWFLAKE_PASSWORD'),
+                              account = os.getenv('SNOWFLAKE_ACCT'),
+                              role = os.getenv('SNOWFLAKE_ROLE'),
                               warehouse = 'REPORTING_WH')
-
 # assign csv to variable
 csv = r'<your_filepath_here>\FXRates.csv.csv'
 staged_file = os.path.basename(csv) + '.gz'

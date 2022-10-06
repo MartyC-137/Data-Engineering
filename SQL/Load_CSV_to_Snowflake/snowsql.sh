@@ -1,0 +1,1 @@
+snowsql -c dev -s my_schema -f PUT.sql -D csv_path=your_csv_path\your_csv.csv -D stage=my_stage

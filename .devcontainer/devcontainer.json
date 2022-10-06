@@ -1,0 +1,71 @@
+{
+	"name": "Python 3",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": { 
+			"VARIANT": "3.8-bullseye"
+		}
+	},
+
+	"features": {
+		"ghcr.io/devcontainers/features/azure-cli:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
+		"ghcr.io/devcontainers-contrib/features/terraform-asdf:2": {},
+		"ghcr.io/devcontainers-contrib/features/yamllint:2": {},
+		"ghcr.io/devcontainers-contrib/features/groovy-sdkman:2": {}
+		// "ghcr.io/devcontainers/features/rust:1": {},
+		// "ghcr.io/rocker-org/devcontainer-features/r-apt:0": {},
+		// "ghcr.io/devcontainers-contrib/features/scala-sdkman:2": {},
+
+	  },
+
+	"customizations": {
+		"vscode": {
+			"settings": { 
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true,
+				"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+				"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+				"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+				"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+				"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+				"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+				"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+				"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+				"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+			},
+
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"snowflake.snowflake-vsc",
+				"ms-toolsai.jupyter",
+				"github.vscode-pull-request-github",
+				"github.github-vscode-theme",
+				"akamud.vscode-theme-onedark",
+				"ms-azuretools.vscode-docker",
+				"PKief.material-icon-theme",
+				"streetsidesoftware.code-spell-checker",
+				"4ops.terraform",
+				"DavidAnson.vscode-markdownlint",
+				"esbenp.prettier-vscode",
+				"redhat.vscode-yaml",
+				"yzhang.markdown-all-in-one",
+				"GitHub.codespaces",
+				"codezombiech.gitignore",
+				// "ms-mssql.mssql",
+			]
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	"postCreateCommand": "pip3 install --user -r requirements.txt",
+	
+	"remoteUser": "vscode"
+}

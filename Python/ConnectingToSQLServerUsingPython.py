@@ -11,7 +11,7 @@ import pandas as pd
 server = 'server'
 database = 'database'
 
-#sql connection
+#sql connection - uses AD to authenticate
 cnxn = pyodbc.connect(
     Trusted_Connection= 'Yes',
     Driver= '{SQL Server}',

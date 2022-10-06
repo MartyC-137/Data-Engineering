@@ -8,14 +8,18 @@ connecting to snowflake through Python"""
 #pip install pyarrow==5.0.0
 
 #import modules
+import os
 import pandas as pd
 from snowflake import connector
 
-#establist connection to Cooke Snowflake warehouse
-connection = connector.connect(user = 'your_username_here',
-                              password = 'your_password_here',
-                              account = 'ex12345.canada-central.azure',
-                              role = 'SYSADMIN',
+from dotenv import load_dotenv
+load_dotenv()
+
+#establish connection to Snowflake using .env file
+connection = connector.connect(user = os.getenv('SNOWFLAKE_USER'),
+                              password = os.getenv('SNOWFLAKE_PASSWORD'),
+                              account = os.getenv('SNOWFLAKE_ACCT'),
+                              role = os.getenv('SNOWFLAKE_ROLE'),
                               warehouse = 'REPORTING_WH')
 
 #sample SQL query, paste whatever you'd like in here

@@ -1,11 +1,9 @@
-# Snowflake Automated Testing Pipeline - CDW_DEV
+# Snowflake Automated Deployment Pipeline
 # By: Martin Palkovic
 # Date: 2022-10-12
-# Runs SQL code against a dev database, and will
-# notify you in the PR if there are any
-# syntax errors
-
-name: Snowflake Testing Pipeline 
+# Deploys SQL code to a production database after approval of 
+# a PR
+name: Snowflake Automated Deployment Pipeline
 
 trigger:
   branches:
@@ -13,13 +11,13 @@ trigger:
     - main
   paths:
     include:
-    - /Snowflake/<your_dev_folder_here>
+    - /Snowflake/<your_prod_folder_here>
 pool:
   vmImage: 'ubuntu-latest'
 variables:
-- group: snowflake_dev_credentials
+- group: snowflake_prod_creds
 jobs:
-- job: Test_SQL_in_DEV_DATABASE
+- job: Deploy_SQL_to_PROD
   workspace:
     clean: all
   steps:
@@ -40,10 +38,7 @@ jobs:
         pip install schemachange --upgrade
 
         echo 'Step 2: Running schemachange'
-        if schemachange -f $(ROOT_FOLDER) -a $(SNOWFLAKE_ACCOUNT) -u $(SNOWFLAKE_USERNAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table ; then
-        echo 'Test build is complete, you can merge this PR!'
-        else
-        exit 1
-        fi
+        schemachange -f $(ROOT_FOLDER) -a $(SNOWFLAKE_ACCOUNT) -u $(SNOWFLAKE_USERNAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
+
     env:
       SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
