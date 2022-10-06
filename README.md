@@ -22,7 +22,7 @@
     - [Example of a common table expression query (minimum reproducable example) that I've used in production](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/CTE_Example.sql)
     - [Snowflake stored procedure for deleting files in an internal stage](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/sp_Clean_Staging_Area_Snowflake.sql)
     - [Find missing dates in a date field - Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Find_Missing_Dates.sql)
-* [Example YAML file for Azure Pipelines to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/Snowflake_CICD.yaml)
+* [Example YAML file for Azure Pipelines to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/Snowflake_Testing_Pipeline.yml)
 * [Git How To Guide for Beginners](https://github.com/MartyC-137/Data-Engineering/blob/main/Using_git_with_Azure_DevOps/Using_git_with_Azure_DevOps.md)
 
 ---
