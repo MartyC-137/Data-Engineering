@@ -1,0 +1,55 @@
+# YAML file I wrote to validate Snowflake code in a development database during a pull request
+
+name: Snowflake Automated Deployments
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - /Snowflake
+pool:
+  vmImage: 'ubuntu-latest'
+variables:
+- group: snowflake
+steps:
+- task: UsePythonVersion@0
+  displayName: 'Use Python 3.8'
+  inputs:
+    versionSpec: '3.8'
+- task: Bash@3
+  displayName: 'Bash Script'
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo 'Starting bash task'
+      echo "ROOT_FOLDER $(ROOT_FOLDER)"
+      python --version
+
+      echo 'Step 1: Install schemachange'
+      pip install schemachange --upgrade
+
+      echo 'Step 2: Install SnowSQL'
+      curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
+      SNOWSQL_DEST=~/snowflake SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
+      ~/snowflake/snowsql -v
+
+      echo 'Step 3: Create testing schema'
+      ~/snowflake/snowsql -f $(ROOT_FOLDER)R__CreateTestSchema.sql
+
+      echo 'Step 4: Running schemachange'
+      if schemachange -f $(ROOT_FOLDER) -a $(SNOWFLAKE_ACCOUNT) -u $(SNOWFLAKE_USERNAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table ; then
+      echo 'Test build is complete, you can merge this PR!'
+      else
+      echo 'Build failed, you cannot merge this code yet!'
+      fi
+
+      echo 'Step 5: Delete testing schema'
+      snowsql -f $(ROOT_FOLDER)/CDW_DEV/CICD_TESTING/R__DeleteTestSchema.sql
+  env:
+    SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+    SNOWSQL_DEST: $(ROOT_FOLDER)
+    SNOWSQL_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
+    SNOWSQL_USER: $(SNOWFLAKE_USERNAME)
+    SNOWSQL_PWD: $(SNOWFLAKE_PASSWORD)
