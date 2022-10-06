@@ -72,6 +72,14 @@ git config --system core.longpaths true
 
 ![VS_Cloned](images/VS_Cloned.png)
 
+* **Alternatively, you can run the following shell command instead of steps 5/6. Make sure you are connected to the folder you want to store the repository in
+Note that it is not recommended to store your repo in OneDrive. I think its possible, but it seems to cause complications. Also, if you're keeping up with source controlling your code, it will all be stored on the cloud anyways**
+
+```bash
+cd desired/repo/path
+git clone <your_azuredevops_url_here> 
+```
+
 --- 
 
 ## **Using Git with VS Code and tracking the changes in Azure DevOps**
@@ -91,6 +99,19 @@ Git has a concept called **branching** which we will use here. In our repo we ha
 3) Name your branch and press enter:
 
 ![VSCode_NameYourBranch](images/VSCode_NameYourBranch.png)
+
+* in most cases, you want to checkout a new branch from `Main` - there are exceptions. **Checking out a branch from another development branch will cause your pull request to have all of the commits and files of the branch you checked it out from**
+
+* in place of steps 1-3, you can run the following in a shell:
+
+```bash
+git checkout -b <your_branch_name_here>
+```
+in this example, that would be:
+
+```bash
+git checkout -b Hello_World
+```
 
 
 ### **Using Git to track your changes** 
@@ -135,15 +156,40 @@ CREATE TABLE HELLO_WORLD(
 
 ![VSCode_git_add](images/VSCode_git_add.png)
 
+* **Alternatively, run the following in a shell:**
+
+```bash
+git add <your_filename_here>
+
+# to add all files with changes:
+# git add .
+```
+
 8) The file is now **staged** Enter a **commit message** – this is a description of any changes you made to file, to help you or other users understand what has happened with the file. There is no limit on the size of commit messages, and you are encouraged to make them as descriptive as possible. Click  :heavy_check_mark: **Commit** once you are happy with the message:
 
 ![VSCode_Commit](images/VSCode_Commit.png)
+
+* **Alternatively, run the following in a shell:**
+
+```bash
+git commit -m "type a descriptive comment of your code changes here"
+```
 
 9) Click ‘Publish Branch’ to push the branch, and the `Hello_World.sql` file to Azure DevOps:
 
     ![VSCode_PublishBranch](images/VSCode_PublishBranch.png)
 
-    - Note: you may receive an error at this step regarding your username and email not being configured. This is how Azure DevOps will display your commits to the repository. Open a terminal of your choice or the integrated VSCode terminal and run the following commands:
+    * **Alternatively, run the following in a shell:**
+
+```bash
+# First time you push on a new branch from your local machine:
+git push --set-upstream origin <your_branch_name_here>
+
+# If the branch already exists on the cloud:
+git push
+```
+
+  - Note: you may receive an error at this step regarding your username and email not being configured. This is how Azure DevOps will display your commits to the repository. Open a terminal of your choice or the integrated VSCode terminal and run the following commands:
 
     ```bash
     git config --global user.name "FirstName LastName"
