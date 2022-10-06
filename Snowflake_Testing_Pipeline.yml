@@ -42,7 +42,7 @@ steps:
       if schemachange -f $(ROOT_FOLDER) -a $(SNOWFLAKE_ACCOUNT) -u $(SNOWFLAKE_USERNAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table ; then
       echo 'Test build is complete, you can merge this PR!'
       else
-      echo 'Build failed, you cannot merge this code yet!'
+      exit 1
       fi
 
       echo 'Step 5: Delete testing schema'
