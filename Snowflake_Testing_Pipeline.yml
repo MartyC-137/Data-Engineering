@@ -46,7 +46,7 @@ steps:
       fi
 
       echo 'Step 5: Delete testing schema'
-      snowsql -f $(ROOT_FOLDER)/CDW_DEV/CICD_TESTING/R__DeleteTestSchema.sql
+      ~/snowflake/snowsql -f $(ROOT_FOLDER)/CDW_DEV/CICD_TESTING/R__DeleteTestSchema.sql
   env:
     SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
     SNOWSQL_DEST: $(ROOT_FOLDER)
