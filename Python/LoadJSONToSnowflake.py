@@ -10,7 +10,7 @@ import os
 from snowflake import connector
 
 # folder containing your json files
-root = r'C:\Your\directory\here'
+root = r'C:\Directory\containing\JSON\files'
 
 # Connect to your Snowflake account
 cnxn = connector.connect(
@@ -24,7 +24,7 @@ cnxn = connector.connect(
     )
 
 cursor = cnxn.cursor()
-cursor.execute('create stage MY_STAGE;')
+cursor.execute('create or replace stage MY_STAGE;')
 cursor.execute('use role SYSADMIN;')
 
 for file in os.listdir(root):
@@ -32,8 +32,8 @@ for file in os.listdir(root):
     cursor.execute(f"put file://{full_path} @MY_STAGE;")
 
     copy_statement = file + '.gz'
-    cursor.execute(f'''copy into EXAMPLE_TABLE (JSON_DATA) 
-                from @MY_STAGE/{copy_statement}
+    cursor.execute(f'''copy into EXAMPLE_TABLE (JSON_DATA, INSERT DATE) 
+                from (select t.$1, current_timestamp() from @MY_STAGE/{copy_statement} t)
                 file_format = (type = JSON);''')
 cursor.close()
 cnxn.close()
