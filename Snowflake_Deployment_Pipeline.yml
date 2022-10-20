@@ -1,4 +1,4 @@
-# YAML file I wrote to validate Snowflake code in a development database during a pull request
+# YAML file to deploy code automatically to Snowflake after a PR has been approved
 
 name: Snowflake Automated Deployments
 
@@ -12,7 +12,7 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 variables:
-- group: snowflake
+- group: snowflake_cdw_dev
 steps:
 - task: UsePythonVersion@0
   displayName: 'Use Python 3.8'
@@ -31,10 +31,7 @@ steps:
       pip install schemachange --upgrade
 
       echo 'Step 2: Running schemachange'
-      if schemachange -f $(ROOT_FOLDER) -a $(SNOWFLAKE_ACCOUNT) -u $(SNOWFLAKE_USERNAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table ; then
-      echo 'Test build is complete, you can merge this PR!'
-      else
-      exit 1
-      fi
+      schemachange -f $(ROOT_FOLDER) -a $(SNOWFLAKE_ACCOUNT) -u $(SNOWFLAKE_USERNAME) -r $(SNOWFLAKE_ROLE) -w $(SNOWFLAKE_WAREHOUSE) -d $(SNOWFLAKE_DATABASE) -c $(SNOWFLAKE_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
+
   env:
     SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
