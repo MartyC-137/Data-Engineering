@@ -10,6 +10,13 @@ show stages;
 create or replace my_stage
 list @my_stage;
 
+-- create file format
+create or replace file format my_file_format
+type = 'CSV'
+field_delimiter = ','
+replace_invalid_characters = TRUE
+null_if = ('');
+
 /* create stored procedure */
 create or replace procedure dim_customer_pipeline()
 returns varchar
@@ -27,9 +34,9 @@ begin
                 ,t1.$2
                 ,t1.$3
                 ,NULLIF(t1.$4, '')
-            from @MY_SCHEMA.MY_STAGE/Dim_Customer.csv.gz (file_format => 'MY_FILE_FORMAT') t1 
+            from @MY_SCHEMA.MY_STAGE/Dim_Customer.csv.gz (file_format => 'my_file_format') t1 
     )
-    file_format=MY_FILE_FORMAT ON_ERROR='SKIP_FILE';
+    file_format=my_file_format ON_ERROR='SKIP_FILE';
 
     remove @MY_SCHEMA.MY_STAGE pattern='.*Customer.*';
     return 'Successfully loaded data into MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER';
