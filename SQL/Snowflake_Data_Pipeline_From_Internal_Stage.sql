@@ -4,13 +4,14 @@ use warehouse reporting_wh;
 use database my_dev_database;
 use schema my_schema;
 
+/* Provides information for your third party/open source integration tool */
 desc table dimcustomer;
 
 show stages;
-create or replace my_stage
+-- create or replace my_stage --create stage, if needed
 list @my_stage;
 
--- create file format
+/* create file format */
 create or replace file format my_file_format
 type = 'CSV'
 field_delimiter = ','
@@ -33,12 +34,13 @@ begin
         ( select t1.$1
                 ,t1.$2
                 ,t1.$3
-                ,NULLIF(t1.$4, '')
+                ,nullif(t1.$4, '')
             from @MY_SCHEMA.MY_STAGE/Dim_Customer.csv.gz (file_format => 'my_file_format') t1 
     )
     file_format=my_file_format ON_ERROR='SKIP_FILE';
 
     remove @MY_SCHEMA.MY_STAGE pattern='.*Customer.*';
+
     return 'Successfully loaded data into MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER';
  end;
  $$
@@ -48,7 +50,7 @@ begin
 create or replace task dim_customer
     warehouse = LOAD_WH
     schedule = 'using cron 30 9 * * * UTC'
-    comment = 'Truncates MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER, loads all data from Azure SQL and deletes the csv from the staging area'
+    comment = 'Truncates MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER, loads all rows of the dimcustomer table from Azure SQL and deletes the csv from the staging area'
     as
     call dim_customer_pipeline();
 
