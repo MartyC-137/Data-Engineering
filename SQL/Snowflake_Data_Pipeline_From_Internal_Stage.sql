@@ -7,8 +7,9 @@ use schema my_schema;
 /* Provides information for your third party/open source integration tool */
 desc table dimcustomer;
 
+/* create stage, if needed */
 show stages;
--- create or replace my_stage --create stage, if needed
+-- create or replace my_stage 
 list @my_stage;
 
 /* create file format */
@@ -54,7 +55,7 @@ create or replace task dim_customer
     as
     call dim_customer_pipeline();
 
-    /* grant execute task priveleges to role sysadmin */
+/* grant execute task priveleges to role sysadmin */
 use role accountadmin;
 grant execute task on account to role sysadmin;
 
