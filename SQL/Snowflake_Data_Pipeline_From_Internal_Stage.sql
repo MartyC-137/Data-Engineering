@@ -1,3 +1,12 @@
+/**********************************************************************************************************/
+-- Proc: Basic data pipeline from Snowflake internal stage
+-- CreateBy: Martin Palkovic
+-- Create date: 2022-10-31
+-- Description: Basic workflow for building the latter portions of a data pipeline within Snowflake.
+-- Note that this code assumes you have loaded a csv file into a Snowflake internal stage via a 
+-- 3rd party or open source integration tool
+/***********************************************************************************************************/
+
 /* initialize environment */
 use role sysadmin;
 use warehouse reporting_wh;
