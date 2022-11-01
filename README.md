@@ -20,7 +20,7 @@
 * [SQL Examples](https://github.com/MartyC-137/Data-Engineering/tree/main/SQL)
     - [Flatten a JSON to a materialized view in Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Flatten_JSON_Window_Function_Example.sql)
     - [Example of a common table expression query (minimum reproducable example) that I've used in production](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/CTE_Example.sql)
-    - [Snowflake stored procedure for deleting files in an internal stage](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/sp_Clean_Staging_Area_Snowflake.sql)
+    - [Basic Snowflake CDC Pipeline using Streams and Tasks](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Snowflake_Basic_CDC_Pipeline_Using_Streams_Tasks.sql)
     - [Find missing dates in a date field - Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Find_Missing_Dates.sql)
     - [Snowflake data pipeline from internal stage](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Snowflake_Data_Pipeline_From_Internal_Stage.sql)
 * [Validate Snowflake code during a Pull Request using Azure Pipelines](https://github.com/MartyC-137/Data-Engineering/blob/main/Snowflake_Testing_Pipeline.yml)

@@ -25,7 +25,7 @@ use schema identifier($schema_name);
 
 create or replace table my_db.my_schema.my_table 
 comment='My JSON data from API, streaming from the STAGING_PROD database'
-clone STAGING_PROD.URNERBARRY.URNERBARRY_ITEMS;
+clone STAGING_PROD.my_schema.my_table;
 
 create or replace stream identifier($stream_name) on table STAGING_PROD.my_schema.my_table;
 
@@ -59,7 +59,7 @@ $$;
 create or replace task push_my_table
 warehouse = LOAD_WH
 schedule = 'using cron 15 11 * * * UTC' --8:15am AT
-comment = 'Change data capture task that pulls over new UrnerBarry data once a day at 8:15am'
+comment = 'Change data capture task that pulls over new data once a day at 8:15am'
 when system$stream_has_data('my_stream')
 as
 call my_procedure();
