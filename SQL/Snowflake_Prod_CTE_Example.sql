@@ -7,8 +7,7 @@
 -- Modify date:
 -- Mod Reason:
 /***********************************************************************************************************/
-with
-get_source_and_intercompany_accounts as (
+with get_source_and_intercompany_accounts as (
   select
   CCD.company as SourceCompanyCode
     , DCD.company as DestCompanyCode
