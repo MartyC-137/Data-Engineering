@@ -58,7 +58,7 @@ $$;
 
 create or replace task push_my_table
 warehouse = LOAD_WH
-schedule = 'using cron 15 11 * * * UTC' --8:15am AT
+schedule = '1 minute'
 comment = 'Change data capture task that pulls over new data once a day at 8:15am'
 when system$stream_has_data('my_stream')
 as
