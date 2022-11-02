@@ -12,28 +12,32 @@ set db = 'my_db';
 set schema_name = 'my_schema';
 set table_name = 'my_table';
 set stream_name = 'my_stream';
+set source_table = 'staging_db.staging_schema.staging_table';
+set proc_name = 'my_procedure';
+set task_name = 'push_my_table';
 
 /* Initialize Environment */
 use role sysadmin;
 use warehouse reporting_wh;
 
-create or replace database identifier($db);
-create or replace schema identifier($schema_name);
+create database if not exists identifier($db);
+create schema if not exists identifier($schema_name);
 
 use database identifier($db);
 use schema identifier($schema_name);
 
-create or replace table my_db.my_schema.my_table 
-comment='My JSON data from API, streaming from the STAGING_PROD database'
-clone STAGING_PROD.my_schema.my_table;
+create table if not exists my_db.my_schema.my_table 
+comment='SON data from API, streaming from the staging database'
+clone identifier($source_table);
 
-create or replace stream identifier($stream_name) on table STAGING_PROD.my_schema.my_table;
+create stream if not exists identifier($stream_name) on table identifier($source_table)
+comment = 'CDC stream from staging table to prod table';
 
 /* quick diagnostic check */
 show streams;
-select * from my_stream;
+select * from identifier($stream_name);
 
-create or replace procedure my_procedure()
+create or replace procedure identifier($proc_name)()
 returns varchar
 language sql
 execute as owner
@@ -56,7 +60,7 @@ return 'CDC records successfully inserted';
 end;
 $$;
 
-create or replace task push_my_table
+create or replace task identifier($task_name)
 warehouse = LOAD_WH
 schedule = '1 minute'
 comment = 'Change data capture task that pulls over new data once a day at 8:15am'
@@ -70,9 +74,9 @@ grant execute task on account to role sysadmin;
 
 /* tasks are created in a suspended state by default, you must 'resume' them to schedule them */
 use role sysadmin;
-alter task push_my_table resume;
+alter task identifier($task_name) resume;
 
-select * from my_db.my_schema.my_table;
+select * from identifier($my_table);
 
 show tasks;
 select * from table(information_schema.task_history()) order by scheduled_time;
