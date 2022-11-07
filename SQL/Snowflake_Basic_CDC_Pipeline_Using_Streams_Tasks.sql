@@ -10,7 +10,7 @@
 /* Set session variables */
 set db = 'my_db';
 set schema_name = 'my_schema';
-set table_name = 'my_table';
+set dest_table = 'my_table';
 set stream_name = 'my_stream';
 set source_table = 'staging_db.staging_schema.staging_table';
 set proc_name = 'my_procedure';
@@ -26,7 +26,7 @@ create schema if not exists identifier($schema_name);
 use database identifier($db);
 use schema identifier($schema_name);
 
-create table if not exists my_db.my_schema.my_table 
+create table if not exists identifier($dest_table)
 comment='SON data from API, streaming from the staging database'
 clone identifier($source_table);
 
