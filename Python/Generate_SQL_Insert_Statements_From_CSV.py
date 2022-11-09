@@ -29,7 +29,7 @@ def sql_insert_statement_from_dataframe(source, target):
 
 #Execute Function
 sql_insert_statement_from_dataframe(df, 'database.schema.table')
-
+"""
 #Full insert statement:
 insert into database.schema.table(code, expense_type, acct, company) values ('02113', 'Accounts Receivable, Other', '35400', 'An_Awesome_Company');
 insert into database.schema.table(code, expense_type, acct, company) values ('02114', 'Accounts Payable', '36500', 'A_Different_Company');
@@ -39,3 +39,4 @@ insert into database.schema.table(code, expense_type, acct, company) values ('02
 ('02113', 'Accounts Receivable, Other', '35400', 'An_Awesome_Company'),
 ('02114', 'Accounts Payable', '36500', 'A_Different_Company'),
 ('02115', 'Donations', '12220', 'Another_Company'),
+"""
