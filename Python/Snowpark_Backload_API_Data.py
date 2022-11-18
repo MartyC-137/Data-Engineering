@@ -16,9 +16,9 @@ from snowflake.snowpark import Session
 # Establish Snowflake Connection using Snowpark
 account = 'xy45678.canada-central.azure'
 user = 'my_user'
-password = 'my_password'
+password = 'Y@Ur_$tr0nG_P@$sw0rd_hEre!'
 role = 'SYSADMIN'
-warehouse = 'REPORTING_WH'
+warehouse = 'MY_WH'
 database = 'DEV'
 schema = 'MY_SCHEMA'
 target_table = 'MY_TABLE'
@@ -44,7 +44,7 @@ session = snowpark_cnxn(account,
                         database,
                         schema)
 
-print(session.sql('select current_warehouse(), current_database(), current_schema()').collect())
+print(session.sql('SELECT CURRENT_WAREHOUSE(), CURRENT_DATABASE(), CURRENT_SCHEMA()').collect())
 
 # API variables
 headers = {
@@ -59,7 +59,7 @@ def daterange(start_date, end_date):
 start_date = date(2019, 1, 1)
 end_date = date(2022, 11, 18)
 
-# Loop through 3 years worth of API data, insert into Snowflake VARIANT table
+# Loop through 4 years worth of API data, insert into Snowflake VARIANT table
 for date in daterange(start_date, end_date):
     url = f'https://api.mywebsite.com/api/data?&startDate={date}&endDate={date}'
     response = requests.request("GET", url, headers=headers)
