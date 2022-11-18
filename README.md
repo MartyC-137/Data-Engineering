@@ -13,6 +13,7 @@
 ### Table of Contents
 * [Python Examples](https://github.com/MartyC-137/Data-Engineering/tree/main/Python)
     - [Snowpark example - backload data from SQL Server](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Snowpark_Example_Backload_Data.py)
+    - [Snowpark example - backload data from API](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Snowpark_Backload_API_Data.py)
     - [Automated SQL insert statements from a CSV file](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Generate_SQL_Insert_Statements_From_CSV.py)
     - [Extract data from SQL Server, transform, and load to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Read_SQLServer_Write_Snowflake.py)
     - [Batch load JSON files to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/LoadJSONToSnowflake.py)

@@ -7,7 +7,7 @@
 # way to interact with Snowflake using Python.
 # *********************************************************************#
 
-#import modules
+# Import modules
 from sqlalchemy.engine import URL
 from sqlalchemy import create_engine
 
