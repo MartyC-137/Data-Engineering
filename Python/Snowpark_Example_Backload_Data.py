@@ -90,7 +90,7 @@ print(session.sql('select current_warehouse(), current_database(), current_schem
 df_sf = pd.DataFrame()
 
 df_sf[['FROM_CURRENCY', 'TO_CURRENCY']] = df_fx['EXGTBLID_TRANSFORMED'].str.split('-', 1, expand = True)
-df_sf = df_sf[df_sf['TO_CURRENCY'].str.contains('|'.join(['AVG', 'BUY', 'SELL', 'ALL'])) == False] #drops rows that show the string 'avg'
+df_sf = df_sf[df_sf['TO_CURRENCY'].str.contains('|'.join(['AVG', 'BUY', 'SELL', 'ALL'])) == False] #drops rows that contain junk data
 
 df_sf['EFFECTIVE_START'] = df_fx['EXCHDATE'].dt.strftime('%Y-%m-%d %H:%m:%s.%S')
 df_sf['EFFECTIVE_STOP'] = (df_fx['EXCHDATE'] + pd.DateOffset(days = 7, hours = 23, minutes = 59)).dt.strftime('%Y-%m-%d %H:%m:%s.%S')
