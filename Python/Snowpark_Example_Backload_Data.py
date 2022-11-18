@@ -125,7 +125,7 @@ session.sql(f'''INSERT OVERWRITE INTO {target_table} ({columns})
 # OPTION 2: Incremental load
 session.sql(f"""MERGE INTO {target_table} Dest
             USING (
-                SELECT * FROM {temp_table}
+                SELECT {columns} FROM {temp_table}
                 QUALIFY ROW_NUMBER() OVER (
                     PARTITION BY MY_KEY
                     ORDER BY DATE ASC) = 1
