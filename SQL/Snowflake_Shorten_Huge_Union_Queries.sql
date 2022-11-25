@@ -10,25 +10,25 @@
 /*********************************************************************/
 
 declare
-    sql string;
-    final_sql string;
-    c1 cursor for (select COMPANY_NAME from DEV.MY_SCHEMA.MY_TABLE);
+    sql varchar;
+    final_sql varchar;
+    organization cursor for (select COMPANY_NAME from DEV.MY_SCHEMA.MY_TABLE);
     my_results resultset;
 begin
     final_sql := '';
     
-    for record in c1 do
+    for company in organization do
         sql := $$select 'COMPANY_NAME' as Company
             , GL.ACTNUM as Account_Number
-            , G1.DESCRIPTION as Account_Name
+            , ACT.DESCRIPTION as Account_Name
             from GP.COMPANY_NAME.General_Ledger_Table GL 
 
-            inner join GP.COMPANY_NAME.Account_Name_Table G1
-                on G1.ID = GL.ID
+            inner join GP.COMPANY_NAME.Account_Name_Table ACT
+                on ACT.ID = GL.ID
             $$;
-        sql := replace(sql, 'COMPANY_NAME', record.COMPANY_NAME);
+        sql := replace(sql, 'COMPANY_NAME', company.COMPANY_NAME);
 
-        if(final_sql <> '')then 
+        if(final_sql != '')then 
           final_sql := final_sql || ' union all ';
         end if;
 
