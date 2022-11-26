@@ -9,6 +9,10 @@
 -- in one go. The first implementation of this at work reduced a 300 line query to ~ 40 lines!
 /*********************************************************************/
 
+use role sysadmin;
+use warehouse my_wh;
+use database my_db;
+
 declare
     sql varchar;
     final_sql varchar;
@@ -21,9 +25,9 @@ begin
         sql := $$select 'COMPANY_NAME' as Company
             , GL.ACTNUM as Account_Number
             , ACT.DESCRIPTION as Account_Name
-            from GP.COMPANY_NAME.General_Ledger_Table GL 
+            from COMPANY_NAME.General_Ledger_Table GL 
 
-            inner join GP.COMPANY_NAME.Account_Name_Table ACT
+            inner join COMPANY_NAME.Account_Name_Table ACT
                 on ACT.ID = GL.ID
             $$;
         sql := replace(sql, 'COMPANY_NAME', company.COMPANY_NAME);
