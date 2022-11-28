@@ -11,13 +11,13 @@
 
 use role sysadmin;
 use warehouse my_wh;
-use database my_db;
+use database dev;
 
 -- Declare variables, loop over results of the 'organization' cursor variable
 declare
     small_sql varchar;
     big_sql varchar;
-    organization cursor for (select COMPANY_NAME from DEV.MY_SCHEMA.MY_TABLE);
+    organization cursor for (select COMPANY_NAME from MY_SCHEMA.MY_TABLE);
     my_results resultset;
 begin
     big_sql := '';
