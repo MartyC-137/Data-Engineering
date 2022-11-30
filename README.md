@@ -17,7 +17,7 @@
     - [Automated SQL insert statements from a CSV file](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Generate_SQL_Insert_Statements_From_CSV.py)
     - [Extract data from SQL Server, transform, and load to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Read_SQLServer_Write_Snowflake.py)
     - [Batch load JSON files to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/LoadJSONToSnowflake.py)
-    - [SQL Server development environment in Docker](https://github.com/MartyC-137/Data-Engineering/tree/main/Docker)
+    <!-- - [SQL Server development environment in Docker](https://github.com/MartyC-137/Data-Engineering/tree/main/Docker) -->
     - [SQL Server data Pull - 100 Records from every view in a database](https://github.com/MartyC-137/Data-Engineering/blob/main/Python/Pull_records_for_all_SQL_tables_in_db.py)
 * [SQL Examples](https://github.com/MartyC-137/Data-Engineering/tree/main/SQL)
     - [Auto Ingest Snowpipe from Azure Blob to Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Snowflake_Azure_Blob_Auto_Ingest_Snowpipe.sql)
