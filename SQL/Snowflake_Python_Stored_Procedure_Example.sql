@@ -30,10 +30,9 @@ language python
 runtime_version = '3.8'
 packages = ('snowflake-snowpark-python', 'pandas')
 handler = 'print_differences'
-
 as 
 $$
-import pandas
+import pandas as pd
 
 def print_differences(session, table1: str,table2: str,field1: str,field2: str):
 
@@ -48,7 +47,6 @@ def print_differences(session, table1: str,table2: str,field1: str,field2: str):
     # convert the the fields of interest from each table to a list
     list1 = df1[field1].to_list()
     list2 = df2[field2].to_list()
-
 
     return [item for item in list1 if item not in list2]
 $$
