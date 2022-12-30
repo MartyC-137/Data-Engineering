@@ -8,20 +8,26 @@
 # *********************************************************************#
 
 # Import modules
-import json, requests
+import os, json, requests
 
 from datetime import date, timedelta
 from snowflake.snowpark import Session
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Establish Snowflake Connection using Snowpark
-account = 'xy45678.canada-central.azure'
-user = 'my_user'
-password = 'Y@Ur_$tr0nG_P@$sw0rd_hEre!'
+account = os.getenv('SNOWFLAKE_ACCT')
+user = os.getenv('SNOWFLAKE_USER')
+password = os.getenv('SNOWFLAKE_PASSWORD')
+role = os.getenv('SNOWFLAKE_ROLE')
 role = 'SYSADMIN'
 warehouse = 'MY_WH'
 database = 'DEV'
 schema = 'MY_SCHEMA'
 target_table = 'MY_TABLE'
+
+api_key = os.getenv('MY_API_KEY')
 
 def snowpark_cnxn(account, user, password, role, warehouse, database, schema):
     connection_parameters = {
@@ -48,7 +54,7 @@ print(session.sql('SELECT CURRENT_WAREHOUSE(), CURRENT_DATABASE(), CURRENT_SCHEM
 
 # API variables
 headers = {
-  'APIKey': 'Your_API_key_here'
+  'APIKey': f'{api_key}'
 }
 
 # Define a function so we can loop over a date range

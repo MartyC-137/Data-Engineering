@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 
 import pandas as pd
 
-# SQL Server Connection
+# SQL Server Connection - uses Active Directory to authenticate
 driver = 'SQL Server'
 server = 'my_server'
 database = 'my_db'

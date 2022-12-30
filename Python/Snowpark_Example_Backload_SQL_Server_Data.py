@@ -8,12 +8,16 @@
 # *********************************************************************#
 
 # Import modules
+import os
 from sqlalchemy.engine import URL
 from sqlalchemy import create_engine
 
 import pandas as pd
 
 from snowflake.snowpark import Session
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # Establish SQL Server Connection
 driver = 'SQL Server'
@@ -48,10 +52,10 @@ print('Total records from SQL Server:', len(df_fx))
 # --------------------------------------------
 
 # Establish Snowpark Connection
-account = 'xy45678.canada-central.azure'
-user = 'my_user'
-password = 'my_password'
-role = 'SYSADMIN'
+account = os.getenv('SNOWFLAKE_ACCT')
+user = os.getenv('SNOWFLAKE_USER')
+password = os.getenv('SNOWFLAKE_PASSWORD')
+role = os.getenv('SNOWFLAKE_ROLE')
 warehouse = 'REPORTING_WH'
 database = 'DEV'
 schema = 'MY_SCHEMA'
