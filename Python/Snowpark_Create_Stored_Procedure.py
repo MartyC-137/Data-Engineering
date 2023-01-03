@@ -61,6 +61,7 @@ def print_differences(session: snowflake.snowpark.Session, table1: str,table2: s
 session.add_packages('snowflake-snowpark-python')
 
 print('Registering Stored Procedure with Snowflake...\n')
+
 session.sproc.register(
     func = print_differences
   , return_type = StringType()
@@ -70,6 +71,7 @@ session.sproc.register(
   , replace = True
   , stage_location = '@UDF_STAGE'
 )
+
 print('Stored Procedure registered with Snowflake!\n')
 
 # You can return the results on one line using the sql() method:
