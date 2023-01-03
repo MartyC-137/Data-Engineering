@@ -80,6 +80,6 @@ print('Stored Procedure registered with Snowflake!\n')
 # Call stored procedure, print results as dataframe
 x = session.call('print_differences', 'MYTABLE', 'MYTABLE2', 'FRUITS', 'FRUITS')
 print(x, '\n')
-# print('\n')
+
 df = pd.DataFrame({'Differences': x.split(',')})
 print(df)
