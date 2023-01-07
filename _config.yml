@@ -1,3 +1,7 @@
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
 title: Martin Palkovic # your name (or website title) here
 logo: "/images/bike_selfie.jpg?raw=true" # your photo (or logo) here
 description: > # your text below (remove <br> elements if you don't need line breaks)
