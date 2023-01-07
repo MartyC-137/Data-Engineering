@@ -1,21 +1,4 @@
-markdown: kramdown
-highlighter: rouge
-permalink: pretty
-
-title: Martin Palkovic # your name (or website title) here
-logo: "/images/bike_selfie.jpg?raw=true" # your photo (or logo) here
-description: > # your text below (remove <br> elements if you don't need line breaks)
-  Howdy! I’m Martin, I'm a Data Engineer at Cooke Aquaculture. 
-  
-  My technical skills include SQL (Snowflake, SQL Server, PostgreSQL), 
-  Python, Git, Bash, Docker, Boomi, Azure, Markdown, Power BI, and Excel.
-  
-  In my free time I’m an avid mountain biker, DIYer and dad.
-  I also enjoy video games, board games, hanging out with my daughter and corgi, 
-  skiing and learning every day.
-
-  <a href="https://www.linkedin.com/in/mpalkovic/">View My LinkedIn Profile</a> 
-  
 theme: jekyll-theme-minimal
-include:
-  - index.md
+markdown: kramdown
+title: Martin's Homepage
+description: Bookmark this to keep an eye on my project updates!
