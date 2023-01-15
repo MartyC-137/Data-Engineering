@@ -27,7 +27,7 @@ use database identifier($db);
 use schema identifier($schema_name);
 
 create table if not exists identifier($dest_table)
-comment='SON data from API, streaming from the staging database'
+comment='JSON data from API, streaming from the staging database'
 clone identifier($source_table);
 
 create stream if not exists identifier($stream_name) on table identifier($source_table)
