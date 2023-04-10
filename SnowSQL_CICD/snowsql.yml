@@ -1,99 +1,66 @@
-# This pipeline uses the SnowSQL CLI to deploy code to Snowflake that is merged to main after PR approval
+# This pipeline uses the SnowSQL CLI to deploy code to Snowflake that is merged to main after PR approval.
+# Note that this is the 'parent' pipeline, which calls the build.yml and deploy.yml files
 # Note that this uses Azure DevOps flavoured YAML but could easily be modified to work with Github or GitLab
 
 name: Snowflake CD Pipeline
 
-parameters:
-  - name: jobName
-    default: 'SnowflakeBuild'
-  - name: jobDisplay
-    default: 'Build artifacts for Snowflake deployment'
-  - name: artifactName
-    default: 'SnowflakeTest'
+variables:
+- group: SnowSQL
+- name: artifactName
+  value: 'snowflakeTest'
+- name: vmImage
+  value: 'ubuntu-latest'  
 
 trigger:
   branches:
     include:
     - main
 
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
+- stage: Build
+  jobs:
+  - template: build.yml
+    parameters:
+      jobName: 'BuildSnowflakeObjects'
+      artifactName: $(artifactName)
+      vmImage: $(vmImage)
 
-variables:
-- group: SnowSQL
+- stage: DEV
+  variables:
+  - name: database
+    value: DEV
+  - name: schema
+    value: misc
+  jobs:
+  - template: deploy.yml
+    parameters:
+      jobName: DEV
+      databaseName: $(database)
+      vmImage: $(vmImage)
+      environmentName: DEV
 
-jobs:
-- job: ${{ parameters.jobName }}
-  timeoutInMinutes: 10
-  displayName: ${{ parameters.jobDisplay }}
+- stage: QA
+  variables:
+  - name: database
+    value: QA
+  - name: schema
+    value: misc
+  jobs:
+  - template: deploy.yml
+    parameters:
+      jobName: QA
+      databaseName: $(database)
+      vmImage: $(vmImage)
+      environmentName: QA
 
-  workspace:
-    clean: outputs
-
-  steps:
-
-    # Checkout repo
-  - checkout: self
-    fetchDepth: 10
-    clean: true
-
-    # Download and Install SnowSQL CLI
-  - script: | 
-      curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
-      SNOWSQL_DEST=~/snowflake SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
-    name: SnowSQLSetup
-    displayName: Download and Install SnowSQL
-
-    # Test SnowSQL Installation
-  - script: ~/snowflake/snowsql -v
-    name: TestSnowSQL
-    displayName: Test SnowSQL Installation
-
-  - script: |
-      echo "All changes in this commit:"
-      git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion)
-    name: detectingChanges
-    displayName: 'Detecting changes'
-
-    # Confirm Snowflake is properly connected
-  - script: |
-      # Test SnowSQL connection to our Snowflake instance
-      ~/snowflake/snowsql -q "select current_account(), current_user(), current_role(), current_warehouse(), current_database()"
-
-      # Confirm that the pipeline is finding the changed SQL files
-      files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.sql)
-
-      echo "Changed files:"
-      echo "$files"
-    env:
-      SNOWSQL_ACCOUNT: $(SNOWSQL_ACCOUNT)
-      SNOWSQL_USER: $(SNOWSQL_USER)
-      SNOWSQL_PWD: $(SNOWSQL_PWD)
-      SNOWSQL_DATABASE: $(SNOWSQL_DB)
-      SNOWSQL_SCHEMA: $(SNOWSQL_SCHEMA)
-      SNOWSQL_ROLE: $(SNOWSQL_ROLE)
-    name: TestSnowSQLConnection
-    displayName: Test Snowflake Connection
-  
-    # Deploy code to Snowflake
-  - script: | 
-      files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.sql)
-      for file in $files; do
-        echo "Deploying $file"
-        ~/snowflake/snowsql -f $file
-      done
-    env:
-      SNOWSQL_ACCOUNT: $(SNOWSQL_ACCOUNT)
-      SNOWSQL_USER: $(SNOWSQL_USER)
-      SNOWSQL_PWD: $(SNOWSQL_PWD)
-      SNOWSQL_DATABASE: $(SNOWSQL_DB)
-      SNOWSQL_SCHEMA: $(SNOWSQL_SCHEMA)
-      SNOWSQL_ROLE: $(SNOWSQL_ROLE)
-    name: Deploy
-    displayName: Deploy code to Snowflake
-
-    # Publish artifacts
-  - publish: $(System.DefaultWorkingDirectory)
-    artifact: ${{ parameters.artifactName }}
-    name: Artifacts
-    displayName: Publish pipeline artifacts
+- stage: PROD
+  variables:
+  - name: database
+    value: PROD
+  jobs:
+  - template: deploy.yml
+    parameters:
+      jobName: PROD
+      databaseName: $(database)
+      vmImage: $(vmImage)
+      environmentName: PROD

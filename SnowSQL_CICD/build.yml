@@ -1,0 +1,26 @@
+parameters:
+  - name: jobName
+    default: 'SnowflakeBuild'
+  - name: jobDisplay
+    default: 'Build artifacts for Snowflake deployment'
+  - name: artifactName
+    default: 'SnowflakeTest'
+  - name: vmImage
+    default: 'ubuntu-latest'
+  - name: environmentName
+    default: 'DEV'
+
+jobs:
+- job: ${{ parameters.jobName }}
+  displayName: ${{ parameters.jobDisplay }}
+  timeoutInMinutes: 10
+  pool:
+    vmImage: ${{ parameters.vmImage }}
+  workspace:
+    clean: outputs
+  steps:
+    # Publish artifacts
+  - publish: $(System.DefaultWorkingDirectory)
+    artifact: ${{ parameters.artifactName }}
+    name: Artifacts
+    displayName: Publish pipeline artifacts
