@@ -8,8 +8,6 @@ parameters:
     default: 'SnowflakeTest'
   - name: jobDisplay
     default: 'Lint repo with SQLFluff'
-  - name: artifactName
-    default: 'SnowflakeTest'
 
 pr:
   branches:
