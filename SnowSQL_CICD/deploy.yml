@@ -1,0 +1,81 @@
+parameters:
+  - name: jobName
+    default: 'SnowflakeDeploy'
+  - name: jobDisplay
+    default: 'Deploy Snowflake Objects'
+  - name: databaseName
+    default: ''
+  - name: vmImage
+    default: 'ubuntu-latest'
+  - name: environmentName
+    default: 'DEV'
+
+jobs:
+- deployment: ${{ parameters.jobName }}
+  displayName: ${{ parameters.jobDisplay }}
+  timeoutInMinutes: 10
+  pool:
+    vmImage: ${{ parameters.vmImage }}
+  environment: ${{ parameters.environmentName }}
+  workspace:
+    clean: outputs
+
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          # Checkout repo
+        - checkout: self
+          fetchDepth: 10
+          clean: true
+
+          # Download and Install SnowSQL CLI
+        - script: | 
+            curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
+            SNOWSQL_DEST=~/snowflake SNOWSQL_LOGIN_SHELL=~/.profile bash snowsql-1.2.9-linux_x86_64.bash
+          name: SnowSQLSetup
+          displayName: Download and Install SnowSQL
+
+          # Test SnowSQL Installation
+        - script: ~/snowflake/snowsql -v
+          name: TestSnowSQL
+          displayName: Test SnowSQL Installation
+
+        - script: |
+            echo "All changes in this commit:"
+            git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion)
+          name: detectingChanges
+          displayName: 'Detecting changes'
+
+          # Confirm Snowflake is properly connected
+        - script: |
+            # Test SnowSQL connection to our Snowflake instance
+            ~/snowflake/snowsql -q "select current_account(), current_user(), current_role(), current_warehouse()"
+
+            # Confirm that the pipeline is finding the changed SQL files
+            files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.sql)
+
+            echo "Changed files:"
+            echo "$files"
+          env:
+            SNOWSQL_ACCOUNT: $(SNOWSQL_ACCOUNT)
+            SNOWSQL_USER: $(SNOWSQL_USER)
+            SNOWSQL_PWD: $(SNOWSQL_PWD)
+            SNOWSQL_ROLE: $(SNOWSQL_ROLE)
+          name: TestSnowSQLConnection
+          displayName: Test Snowflake Connection
+        
+          # Deploy code to Snowflake
+        - script: | 
+            files=$(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.sql)
+            for file in $files; do
+              echo "Deploying $file"
+              ~/snowflake/snowsql -d ${{ parameters.databaseName }} -f $file
+            done
+          env:
+            SNOWSQL_ACCOUNT: $(SNOWSQL_ACCOUNT)
+            SNOWSQL_USER: $(SNOWSQL_USER)
+            SNOWSQL_PWD: $(SNOWSQL_PWD)
+            SNOWSQL_ROLE: $(SNOWSQL_ROLE)
+          name: Deploy
+          displayName: Deploy code to Snowflake
