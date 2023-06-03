@@ -4,7 +4,7 @@
 /* Date: 2023-02-09  */
 /* Description: This script loops through query results from the information_schema and grants privileges only to tables */
 /* that have > 0 rows. This script was inspired by a database containing ~2,500 tables, 400 of which contained >= 1 row of data. */
-/* This script revokes all privileges and then grants select on tables with > 0 rows. Modify your cursor queries as needed to provide a */ 
+/* This script revokes all privileges and then grants select on tables with > 0 rows. Modify your cursor queries as needed to provide a */
 /* list of tables, schemas etc. to loop over. */
 
 -- Set session variables

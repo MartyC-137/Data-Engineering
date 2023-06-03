@@ -1,4 +1,4 @@
-name: SQL Linting with SQLFluff
+name: SQLFluff CI
 
 on: [push, pull_request]
 

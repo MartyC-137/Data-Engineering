@@ -8,6 +8,9 @@
 [![forthebadge](https://forthebadge.com/images/badges/kinda-sfw.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/approved-by-george-costanza.svg)](https://forthebadge.com)
 
+![Python CI](https://github.com/MartyC-137/Data-Engineering/actions/workflows/ruff-ci.yml)
+![SQLFluff](https://github.com/MartyC-137/Data-Engineering/actions/workflows/sqlfluff-ci.yml/badge.svg)
+
 ---
 
 ### Table of Contents

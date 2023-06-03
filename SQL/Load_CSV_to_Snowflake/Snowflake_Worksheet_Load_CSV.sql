@@ -3,7 +3,7 @@
 -- Date: 2022-12-08
 /*****************************************************/
 
-/* Set session variables 
+/* Set session variables
 Enter the relevant database, schema, table and file format names here
 */
 set role_name = 'sysadmin';
@@ -29,11 +29,11 @@ use schema identifier($sch);
 
 -- file format
 create file format if not exists identifier($fileformat)
-    type = csv
-    field_delimiter = ','
-    empty_field_as_null = true
-    skip_header = 1
-    comment = 'file format for loading csv files to Snowflake';
+type = csv
+field_delimiter = ','
+empty_field_as_null = true
+skip_header = 1
+comment = 'file format for loading csv files to Snowflake';
 
 -- stage
 create stage if not exists identifier($stage_name)
@@ -42,11 +42,11 @@ show stages;
 
 -- table;
 create table if not exists identifier($table_name) (
-    field1 varchar
+    field1 varchar,
     field2 number
 );
 
-/* the PUT command must be executed in the SnowSQL CLI! 
+/* the PUT command must be executed in the SnowSQL CLI!
 See the following documentation on this topic:
 https://docs.snowflake.com/en/user-guide/snowsql-install-config.html
 https://docs.snowflake.com/en/user-guide/data-load-internal-tutorial.html
@@ -59,9 +59,9 @@ put file://c:\your\filepath\here\my_file.csv;
 list @my_stage;
 
 copy into identifier($table_name)
-    from @my_stage/my_file.csv.gz --variables dont work in conjunction with the @ argument
-    file_format = (format_name = $fileformat)
-    on_error = 'skip_file';
+from @my_stage/my_file.csv.gz --variables dont work in conjunction with the @ argument
+file_format = (format_name = $fileformat)
+on_error = 'skip_file';
 
 -- confirm the COPY INTO command worked
 select * from identifier($table_name);

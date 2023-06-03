@@ -11,17 +11,19 @@ USE WAREHOUSE REPORTING_WH;
 USE DATABASE YOUR_DB;
 USE SCHEMA YOUR_SCHEMA;
 
-WITH find_date_gaps(RowNum, your_date_field) AS 
-(
-   SELECT ROW_NUMBER() OVER(ORDER BY your_date_field ASC) AS RowNum, your_date_field
-        FROM YOUR_TABLE
-        WHERE your_date_field > 'yyyy-mm-dd'
-        GROUP BY your_date_field
+WITH FIND_DATE_GAPS (ROWNUM, YOUR_DATE_FIELD) AS (
+    SELECT
+        YOUR_DATE_FIELD,
+        ROW_NUMBER() OVER (ORDER BY YOUR_DATE_FIELD ASC) AS ROWNUM
+    FROM YOUR_TABLE
+    WHERE YOUR_DATE_FIELD > 'yyyy-mm-dd'
+    GROUP BY YOUR_DATE_FIELD
 )
-SELECT 
-    DATEADD(dd, 1, a.your_date_field) AS startOfGap 
-    , DATEADD(dd, -1, b.your_date_field) AS endOfGap
-    FROM find_date_gaps a 
-    JOIN find_date_gaps b
-        ON a.RowNum = (b.RowNum - 1)
-    WHERE DATEDIFF(dd, a.your_date_field, DATEADD(dd, -1, b.your_date_field)) != 0;
+
+SELECT
+    DATEADD(DD, 1, A.YOUR_DATE_FIELD) AS STARTOFGAP,
+    DATEADD(DD, -1, B.YOUR_DATE_FIELD) AS ENDOFGAP
+FROM FIND_DATE_GAPS AS A
+INNER JOIN FIND_DATE_GAPS AS B
+    ON A.ROWNUM = (B.ROWNUM - 1)
+WHERE DATEDIFF(DD, A.YOUR_DATE_FIELD, DATEADD(DD, -1, B.YOUR_DATE_FIELD)) != 0;

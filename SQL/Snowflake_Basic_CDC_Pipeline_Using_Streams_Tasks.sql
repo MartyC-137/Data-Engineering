@@ -20,7 +20,7 @@ set task_name = 'push_my_table';
 
 /* Initialize Environment */
 use role identifier($role_name);
-use warehouse identifier($wh)
+use warehouse identifier($wh);
 
 create database if not exists identifier($db);
 create schema if not exists identifier($schema_name);
@@ -29,7 +29,7 @@ use database identifier($db);
 use schema identifier($schema_name);
 
 create table if not exists identifier($dest_table)
-comment='JSON data from API, streaming from the staging database'
+comment = 'JSON data from API, streaming from the staging database'
 clone identifier($source_table);
 
 create stream if not exists identifier($stream_name) on table identifier($source_table)
@@ -63,18 +63,20 @@ end;
 $$;
 
 create or replace task identifier($task_name)
-warehouse = LOAD_WH
-schedule = '1 minute'
-comment = 'Change data capture task that pulls over new data once a minute'
-when system$stream_has_data('my_stream')
+    warehouse = LOAD_WH
+    schedule = '1 minute'
+    comment = 'Change data capture task that pulls over new data once a minute'
+when system$stream_has_data ('my_stream')
 as
-call my_procedure();
+    call my_procedure();
 
 /* grant execute task priveleges to role sysadmin */
-use role accountadmin;
+set role_name = 'accountadmin';
+use role identifier($role_name);
 grant execute task on account to role identifier($role_name);
 
 /* tasks are created in a suspended state by default, you must 'resume' them to schedule them */
+set role_name = 'sysadmin';
 use role identifier($role_name);
 alter task identifier($task_name) resume;
 

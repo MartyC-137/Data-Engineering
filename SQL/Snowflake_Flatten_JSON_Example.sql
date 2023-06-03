@@ -11,17 +11,19 @@
 create or replace materialized view my_db.schema.my_view
 as
 select
-    jsn.value:Id::string as ID
-  , jsn.value:TotalAmount::number(10,2) as Total_Amount
-  , jsn.value:Cash::boolean as Cash
-  , jsn.value:TransactionDate::date as Transaction_Date
-  from staging_area.schema.my_table
-  , lateral flatten (input => JSON_DATA) as jsn
+    jsn.value:Id::string as id,
+    jsn.value:TotalAmount::number(10, 2) as total_amount,
+    jsn.value:Cash::boolean as cash,
+    jsn.value:TransactionDate::date as transaction_date
+from staging_area.schema.my_table,
+    lateral flatten(input => json_data) as jsn
 
 qualify row_number()
-over (
-  partition by jsn.value:Id
-  order by jsn.value:Id) = 1;
+    over (
+        partition by jsn.value:Id
+        order by jsn.value:Id
+    )
+= 1;
 
 /*
 Input:
