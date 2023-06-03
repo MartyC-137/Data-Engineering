@@ -35,7 +35,8 @@ my_server_views = pd.read_sql(list_of_views, engine)
 list_of_sql_views = sorted(my_server_views["name"].to_list())
 list_of_sql_views = [
     x for x in list_of_sql_views if x != "DailySensorReadings"
-]  # I had one table with 50M + rows that was causing performance issues, I removed it here
+]  
+# I had one table with 50M + rows that was causing performance issues, I removed it here
 
 for view in list_of_sql_views:
     try:

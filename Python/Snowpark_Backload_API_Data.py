@@ -8,7 +8,9 @@
 # *********************************************************************#
 
 # Import modules
-import os, json, requests
+import os
+import json
+import requests
 
 from datetime import date, timedelta
 from snowflake.snowpark import Session
@@ -67,7 +69,7 @@ start_date = date(2019, 1, 1)
 end_date = date(2022, 11, 18)
 
 # Loop through 4 years worth of API data, insert into Snowflake VARIANT table
-for date in daterange(start_date, end_date):
+for dates in daterange(start_date, end_date):
     url = f"https://api.mywebsite.com/api/data?&startDate={date}&endDate={date}"
     response = requests.request("GET", url, headers=headers)
 

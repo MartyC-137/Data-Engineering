@@ -1,5 +1,5 @@
 """
-Name: Parse XML, extract a field, compare that field to a field from a csv for differences
+Name: Parse XML, extract a field, compare that field to a field from a csv for diffs
 By: Martin Palkovic
 Date: 2022-08-18
 Description: 

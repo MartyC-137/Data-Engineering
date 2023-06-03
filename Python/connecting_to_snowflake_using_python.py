@@ -1,18 +1,8 @@
-"""Quickstart guide for querying snowflake using Python
-Author: Martin Palkovic
-Date: 2022-02-03"""
-
-"""run these two lines if this is your first time
-connecting to snowflake through Python"""
-# pip install snowflake-connector-python
-# pip install pyarrow==5.0.0
-
-# import modules
+""" Import Modules """
 import os
-import pandas as pd
-from snowflake import connector
-
 from dotenv import load_dotenv
+from snowflake import connector
+# import pandas as pd
 
 load_dotenv()
 

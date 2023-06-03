@@ -1,4 +1,4 @@
-name: Python Linting with pylint
+name: Python Linting with Ruff
 
 on: [push, pull_request]
 
@@ -16,7 +16,7 @@ jobs:
         python-version: 3.x
 
     - name: Install dependencies
-      run: pip install pylint
+      run: pip install ruff
 
-    - name: Run pylint
-      run: pylint ./Python --max-line-length=120 .
+    - name: Run ruff
+      run: ruff check ./Python

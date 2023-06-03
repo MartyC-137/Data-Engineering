@@ -1,13 +1,14 @@
 """Title: Populate SQL Server Docker Container with production data
 By: Martin Palkovic
 Date: 2022-07-25
-Description: Recently I had a need for a small, lightweight SQL Server development environment where I could play around with data
-and not impact anything in production. This python script was my solution - it iteratively creates and populates tables in a test database
-that resides within a docker container.
+Description: Recently I had a need for a small, lightweight SQL Server development 
+environment where I could play around with data and not impact anything in production.
+This python script was my solution - it iteratively creates and populates tables 
+in a test database that resides within a docker container.
 
-Due to our Windows auth at work, I couldn't get this to run in a docker-compose file (i.e within the container). The solution
-is to run docker-compose to initialize SQL Server in the container, and then run this script locally. If you don't have intense security at
-work, see the commented out portion of my docker-compose.yaml file - you should be able to run this script from docker-compose
+Due to our Windows auth at work, I couldn't get this to run in a docker-compose 
+file (i.e within the container). The solution is to run docker-compose to initialize 
+SQL Server in the container, and then run this script locally
 
 Exec in shell:
 cd your/file/location
@@ -52,13 +53,15 @@ create database test_db;
 )
 
 """create a list of each table in the database, 
-and remove table names from the list that contain numbers (i.e duplicates/backups with dates on the end)
+and remove table names from the list that contain numbers 
+(i.e duplicates/backups with dates on the end)
 If you only want certain tables, you can manipulate this list however you like. 
-Only table names on this list will be queried from your prod database in the for loop below"""
+Only table names on this list will be queried from your prod database in the 
+for loop below"""
 prod_tables = [table for table in prod_engine.table_names()]
-prod_tables = [item for item in prod_tables if not any(character.isdigit() for character in item)]
+prod_tables = [i for i in prod_tables if not any(char.isdigit() for char in i)]
 
-# This block may seem redundant, but is needed to connect to the database now that we have created it
+# This block is needed to connect to the db now that we have created it
 docker_engine = sqlalchemy_cnxn(driver, docker_server, docker_db)
 
 """iterate over each table to populate the Docker container

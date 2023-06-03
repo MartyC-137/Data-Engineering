@@ -15,6 +15,6 @@ Date: 2022-02-09"""
 list1 = ["red", "blue", "yellow", 7, 25]  # copy and paste your values into here
 list2 = ["yellow", 7, "blue", 1, 5.4]
 
-# returns items that are in list1 but not in list2 - adjust accordingly to suit your needs
+# returns items that are in list1 but not in list2
 list_difference = [item for item in list1 if item not in list2]
-list_difference
+print(list_difference)

@@ -100,7 +100,7 @@ df_sf[["FROM_CURRENCY", "TO_CURRENCY"]] = df_fx["EXGTBLID_TRANSFORMED"].str.spli
     "-", 1, expand=True
 )
 df_sf = df_sf[
-    df_sf["TO_CURRENCY"].str.contains("|".join(["AVG", "BUY", "SELL", "ALL"])) == False
+    df_sf["TO_CURRENCY"].str.contains("|".join(["AVG", "BUY", "SELL", "ALL"])) is False
 ]  # drops rows that contain junk data
 
 df_sf["EFFECTIVE_START"] = df_fx["EXCHDATE"].dt.strftime("%Y-%m-%d %H:%m:%s.%S")

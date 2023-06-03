@@ -1,7 +1,8 @@
 # This only runs on a Python 3.8 environment
 
 # import modules
-import os, snowflake
+import os
+import snowflake
 import pandas as pd
 
 from snowflake.snowpark import Session
@@ -47,14 +48,31 @@ print(
 print("Connected!\n")
 
 session.sql(
-    """create or replace table mytable(amount number comment 'fake amounts for testing', fruits string comment 'fake types of fruit for testing')"""
+    """create or replace table 
+        mytable(amount number comment 'fake amounts for testing', 
+        fruits string comment 'fake types of fruit for testing')"""
 ).show()
+
 session.sql("""create or replace table mytable2 like mytable""").show()
+
 session.sql(
-    """insert into mytable values (1, 'apple'),(2, 'orange'),(5, 'grape'),(7, 'cantelope'),(9, 'pineapple'),(17, 'banana'),(21, 'tangerine')"""
+    """insert into mytable values (1, 'apple'),
+                                    (2, 'orange'),
+                                    (5, 'grape'),
+                                    (7, 'cantelope'),
+                                    (9, 'pineapple'),
+                                    (17, 'banana'),
+                                    (21, 'tangerine')"""
 ).show()
+
 session.sql(
-    """insert into mytable2 values (1, 'apple'),(3, 'orange'),(5, 'grape'),(7, 'strawberry'),(10, 'pineapple'),(17, 'banana'),(22, 'raspberry')"""
+    """insert into mytable2 values (1, 'apple'),
+                                    (3, 'orange'),
+                                    (5, 'grape'),
+                                    (7, 'strawberry'),
+                                    (10, 'pineapple'),
+                                    (17, 'banana'),
+                                    (22, 'raspberry')"""
 ).show()
 
 
@@ -97,7 +115,10 @@ session.sproc.register(
 print("Stored Procedure registered with Snowflake!\n")
 
 # You can return the results on one line using the sql() method:
-# session.sql('''call print_differences('MYTABLE', 'MYTABLE2', 'FRUITS', 'FRUITS')''').show()
+"""session.sql('''call print_differences('MYTABLE', 
+                                        'MYTABLE2', 
+                                        'FRUITS', 
+                                        'FRUITS')''').show()"""
 
 # Call stored procedure, print results as dataframe
 x = session.call("print_differences", "MYTABLE", "MYTABLE2", "FRUITS", "FRUITS")
