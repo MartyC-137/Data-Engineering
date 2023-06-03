@@ -1,4 +1,4 @@
-name: Python Linting with pylint
+name: SQL Linting with SQLFluff
 
 on: [push, pull_request]
 
@@ -16,7 +16,7 @@ jobs:
         python-version: 3.x
 
     - name: Install dependencies
-      run: pip install pylint
+      run: pip install sqlfluff
 
-    - name: Run pylint
-      run: pylint ./Python --max-line-length=120 .
+    - name: Run SQLFluff
+      run: git ls-files | grep \.sql | sqlfluff lint --dialect snowflake
