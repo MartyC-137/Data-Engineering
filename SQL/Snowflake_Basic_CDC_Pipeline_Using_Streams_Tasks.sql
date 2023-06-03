@@ -83,4 +83,4 @@ alter task identifier($task_name) resume;
 select * from identifier($my_table);
 
 show tasks;
-select * from table(information_schema.task_history()) order by scheduled_time;
+select * from table(information_schema.task_history()) order by SCHEDULED_TIME;

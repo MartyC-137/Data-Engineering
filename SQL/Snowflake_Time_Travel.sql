@@ -12,15 +12,13 @@ show tables history;
 alter table my_table rename to my_table_whoops;
 
 /* specify the time */
-select 
-      acct_number
-    , date 
-    from db.schema.my_table
-    at (timestamp => '2022-06-01 6:00');
+select
+    acct_number,
+    date
+from my_table at (timestamp => '2022-06-01 6:00');
 
 /* specify an offset, ex. 1 hour ago*/
 select
-      acct_number,
-      date 
-    from db.schema.my_table
-    at (offset => -60*60); --offset is in seconds here
+  acct_number,
+  date 
+from my_table at (offset => -60*60); --offset is in seconds here

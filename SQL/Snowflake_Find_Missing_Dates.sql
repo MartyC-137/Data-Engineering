@@ -21,9 +21,9 @@ with find_date_gaps (rownum, your_date_field) as (
 )
 
 select
-    dateadd(dd, 1, a.your_date_field) as startofgap,
-    dateadd(dd, -1, b.your_date_field) as endofgap
-from find_date_gaps as a
-inner join find_date_gaps as b
+    dateadd(dd, 1, fdg1.your_date_field) as startofgap,
+    dateadd(dd, -1, fdg2.your_date_field) as endofgap
+from find_date_gaps as fdg1
+inner join find_date_gaps as fdg2
     on a.rownum = (b.rownum - 1)
 where datediff(dd, a.your_date_field, dateadd(dd, -1, b.your_date_field)) != 0;
