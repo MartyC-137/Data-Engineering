@@ -4,7 +4,7 @@ Date: 2022-02-09"""
 # ------------------------------
 # a common work task is to compare two database ID fields
 # against each other to determine which records exist
-# in one table but not another. This operation can take 10+ TESTING LONG LINE HOPING TO MAKE RUFF FAIL
+# in one table but not another. This operation can take 10+
 # minutes to run in SQl and is syntactically heavy, but is
 # fast and easy in Python.
 
