@@ -1,71 +1,125 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/go
 {
-	"name": "Python 3",
+	"name": "oh-my-posh",
 	"build": {
-		"dockerfile": "Dockerfile",
-		"context": "..",
-		"args": { 
-			"VARIANT": "3.8-bullseye"
-		}
+	  "dockerfile": "Dockerfile",
+	  "args": {
+		// Update the VARIANT arg to pick a version of Go: 1, 1.16, 1.17
+		// Append -bullseye or -buster to pin to an OS version.
+		// Use -bullseye variants on local arm64/Apple Silicon.
+		"VARIANT": "1.19-bullseye",
+		// Options:
+  
+		"POSH_THEME": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/clean-detailed.omp.json",
+  
+		// Override me with your own timezone:
+		"TZ": "America/Moncton",
+		// Use one of the "TZ database name" entries from:
+		// https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  
+		"NODE_VERSION": "lts/*",
+		//Powershell version
+		"PS_VERSION": "7.2.7"
+	  }
 	},
+	"runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
 
 	"features": {
 		"ghcr.io/devcontainers/features/azure-cli:1": {
 			"version": "latest"
 		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.8"
+		},
 		"ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
 		"ghcr.io/devcontainers-contrib/features/terraform-asdf:2": {},
 		"ghcr.io/devcontainers-contrib/features/yamllint:2": {},
-		"ghcr.io/devcontainers-contrib/features/groovy-sdkman:2": {}
-		// "ghcr.io/devcontainers/features/rust:1": {},
-		// "ghcr.io/rocker-org/devcontainer-features/r-apt:0": {},
-		// "ghcr.io/devcontainers-contrib/features/scala-sdkman:2": {},
-
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers-contrib/features/spark-sdkman:2": {
+			"jdkVersion": "11"
+		},
+		"ghcr.io/dhoeric/features/google-cloud-cli:1": {
+			"version": "latest"
+		}
 	  },
-
+  
+	// Set *default* container specific settings.json values on container create.
 	"customizations": {
 		"vscode": {
-			"settings": { 
-				"python.defaultInterpreterPath": "/usr/local/bin/python",
-				"python.linting.enabled": true,
-				"python.linting.pylintEnabled": true,
-				"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
-				"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
-				"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
-				"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
-				"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
-				"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
-				"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
-				"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
-				"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+			"settings": {
+			"go.toolsManagement.checkForUpdates": "local",
+			"go.useLanguageServer": true,
+			"go.gopath": "/go",
+			"go.goroot": "/usr/local/go",
+			"terminal.integrated.profiles.linux": {
+				"bash": {
+				"path": "bash"
+				},
+				"zsh": {
+				"path": "zsh"
+				},
+				"fish": {
+				"path": "fish"
+				},
+				"tmux": {
+				"path": "tmux",
+				"icon": "terminal-tmux"
+				},
+				"pwsh": {
+				"path": "pwsh",
+				"icon": "terminal-powershell"
+				}
+			},
+			"terminal.integrated.defaultProfile.linux": "pwsh",
+			"terminal.integrated.defaultProfile.windows": "pwsh",
+			"terminal.integrated.defaultProfile.osx": "pwsh",
+			"tasks.statusbar.default.hide": true,
+			"terminal.integrated.tabs.defaultIcon": "terminal-powershell",
+			"terminal.integrated.tabs.defaultColor": "terminal.ansiBlue",
+			"workbench.colorTheme": "GitHub Dark Dimmed",
+			"workbench.iconTheme": "material-icon-theme"
 			},
 
+			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
+				"ms-mssql.mssql",
+				"snowflake.snowflake-vsc",
+				"golang.go",
+				"ms-vscode.powershell",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"snowflake.snowflake-vsc",
-				"ms-toolsai.jupyter",
-				"github.vscode-pull-request-github",
-				"github.github-vscode-theme",
-				"akamud.vscode-theme-onedark",
-				"ms-azuretools.vscode-docker",
-				"PKief.material-icon-theme",
-				"streetsidesoftware.code-spell-checker",
-				"4ops.terraform",
-				"DavidAnson.vscode-markdownlint",
-				"esbenp.prettier-vscode",
 				"redhat.vscode-yaml",
+				"ms-vscode-remote.remote-containers",
+				"ms-toolsai.jupyter",
+				"eamodio.gitlens",
 				"yzhang.markdown-all-in-one",
-				"GitHub.codespaces",
-				"codezombiech.gitignore",
-				// "ms-mssql.mssql",
+				"davidanson.vscode-markdownlint",
+				"editorconfig.editorconfig",
+				"esbenp.prettier-vscode",
+				"github.vscode-pull-request-github",
+				"akamud.vscode-theme-onedark",
+				"PKief.material-icon-theme",
+				"GitHub.github-vscode-theme",
+				"actboy168.tasks",
+				"bastienboutonnet.vscode-dbt",
+				"innoverio.vscode-dbt-power-user",
+				"redhat.vscode-xml",
+				"adpyke.vscode-sql-formatter",
+				"inferrinizzard.prettier-sql-vscode"
 			]
 		}
 	},
-
+  
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	"postCreateCommand": "pip3 install --user -r requirements.txt",
-	
+	// "forwardPorts": [3000],
+  
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "pip3 install --user -r .devcontainer/requirements.txt --use-pep517",
+  
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
-}
+  }
+  
