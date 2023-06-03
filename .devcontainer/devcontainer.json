@@ -20,7 +20,7 @@
   
 		"NODE_VERSION": "lts/*",
 		//Powershell version
-		"PS_VERSION": "7.2.7"
+		"PS_VERSION": "7.2.1"
 	  }
 	},
 	"runArgs": ["--cap-add=SYS_PTRACE", 
@@ -115,7 +115,8 @@
 				"redhat.vscode-xml",
 				"adpyke.vscode-sql-formatter",
 				"inferrinizzard.prettier-sql-vscode",
-				"github.vscode-github-actions"
+				"github.vscode-github-actions",
+				"ms-python.black-formatter"
 			]
 		}
 	},
