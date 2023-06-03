@@ -11,19 +11,19 @@ use warehouse my_warehouse;
 use database my_db;
 use schema my_schema;
 
-with find_date_gaps (rownum, your_date_field) as (
+with find_date_gaps (rownum, my_date_field) as (
     select
-        your_date_field,
-        row_number() over (order by your_date_field asc) as rownum
+        my_date_field,
+        row_number() over (order by my_date_field asc) as rownum
     from your_table
-    where your_date_field > 'yyyy-mm-dd'
-    group by your_date_field
+    where my_date_field > 'yyyy-mm-dd'
+    group by my_date_field
 )
 
 select
-    dateadd(dd, 1, fdg1.your_date_field) as startofgap,
-    dateadd(dd, -1, fdg2.your_date_field) as endofgap
+    dateadd(dd, 1, fdg1.my_date_field) as startofgap,
+    dateadd(dd, -1, fdg2.my_date_field) as endofgap
 from find_date_gaps as fdg1
 inner join find_date_gaps as fdg2
-    on a.rownum = (b.rownum - 1)
-where datediff(dd, a.your_date_field, dateadd(dd, -1, b.your_date_field)) != 0;
+    on fdg1.rownum = (fdg2.rownum - 1)
+where datediff(dd, fdg1.my_date_field, dateadd(dd, -1, fdg2.my_date_field)) != 0;
