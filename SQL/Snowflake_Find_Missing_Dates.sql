@@ -6,24 +6,24 @@ Description: Say, for example, you have a report, and there is data missing for 
 on that report. You can use this query to identify dates where you may have missing data
  */
 
-USE ROLE SYSADMIN;
-USE WAREHOUSE REPORTING_WH;
-USE DATABASE YOUR_DB;
-USE SCHEMA YOUR_SCHEMA;
+use role sysadmin;
+use warehouse my_warehouse;
+use database my_db;
+use schema my_schema;
 
-WITH FIND_DATE_GAPS (ROWNUM, YOUR_DATE_FIELD) AS (
-    SELECT
-        YOUR_DATE_FIELD,
-        ROW_NUMBER() OVER (ORDER BY YOUR_DATE_FIELD ASC) AS ROWNUM
-    FROM YOUR_TABLE
-    WHERE YOUR_DATE_FIELD > 'yyyy-mm-dd'
-    GROUP BY YOUR_DATE_FIELD
+with find_date_gaps (rownum, your_date_field) as (
+    select
+        your_date_field,
+        row_number() over (order by your_date_field asc) as rownum
+    from your_table
+    where your_date_field > 'yyyy-mm-dd'
+    group by your_date_field
 )
 
-SELECT
-    DATEADD(DD, 1, A.YOUR_DATE_FIELD) AS STARTOFGAP,
-    DATEADD(DD, -1, B.YOUR_DATE_FIELD) AS ENDOFGAP
-FROM FIND_DATE_GAPS AS A
-INNER JOIN FIND_DATE_GAPS AS B
-    ON A.ROWNUM = (B.ROWNUM - 1)
-WHERE DATEDIFF(DD, A.YOUR_DATE_FIELD, DATEADD(DD, -1, B.YOUR_DATE_FIELD)) != 0;
+select
+    dateadd(dd, 1, a.your_date_field) as startofgap,
+    dateadd(dd, -1, b.your_date_field) as endofgap
+from find_date_gaps as a
+inner join find_date_gaps as b
+    on a.rownum = (b.rownum - 1)
+where datediff(dd, a.your_date_field, dateadd(dd, -1, b.your_date_field)) != 0;

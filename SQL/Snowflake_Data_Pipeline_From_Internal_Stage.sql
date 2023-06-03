@@ -25,7 +25,7 @@ list @my_stage;
 create or replace file format my_file_format
 type = 'CSV'
 field_delimiter = ','
-replace_invalid_characters = TRUE
+replace_invalid_characters = true
 null_if = ('');
 
 /* create stored procedure */
