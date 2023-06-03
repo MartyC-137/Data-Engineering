@@ -1,5 +1,5 @@
 """
-Name: Parse XML, extract a field, compare that field to a field from a csv for differences
+Name: Parse XML, extract a field, compare that field to a field from a csv for diffs
 By: Martin Palkovic
 Date: 2022-08-18
 Description: 
@@ -9,7 +9,7 @@ Description:
 import pandas as pd
 
 # Paste your xml here
-xml = '''
+xml = """
 <Pallet>
  <Packs>
   <Pack>
@@ -34,21 +34,21 @@ xml = '''
   </Pack>
  </Packs>
 </Pallet>
-'''
+"""
 
 # Parse XML
-df = pd.read_xml(xml, xpath = './/Property')
+df = pd.read_xml(xml, xpath=".//Property")
 
 # Extract only the columns we need from the XML
-df_pallet = df.loc[df['name'] == 'Pallet']
+df_pallet = df.loc[df["name"] == "Pallet"]
 
 # Read CSV
-df_csv = pd.read_csv(r'your_csv_here.csv')
+df_csv = pd.read_csv(r"your_csv_here.csv")
 
 # Convert values to Python list, cast to integer
-pallet = df_pallet['Property'].tolist()
+pallet = df_pallet["Property"].tolist()
 pallet = [int(i) for i in pallet]
-csv = df_csv['Pallet'].tolist()
+csv = df_csv["Pallet"].tolist()
 
 # Compare differences
 print([i for i in pallet if i not in csv])

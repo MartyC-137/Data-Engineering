@@ -1,0 +1,22 @@
+name: SQLFluff CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: pip install sqlfluff
+
+    - name: Run SQLFluff
+      run: git ls-files | grep \.sql | sqlfluff lint --dialect snowflake

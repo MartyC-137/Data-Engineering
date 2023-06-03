@@ -1,2 +1,5 @@
 .DS_Store
 .vscode/
+/.ruff_cache
+/.ipynb_checkpoints
+Snowflake_Azure_Blob_Auto_ingest_Snowpipe.sql

@@ -15,11 +15,11 @@ use warehouse reporting_wh;
 use database dev;
 use schema my_schema;
 
-create or replace table mytable(amount number comment 'fake amounts for testing', fruits string comment 'fake types of fruit for testing');
+create or replace table mytable (amount number comment 'fake amounts for testing', fruits string comment 'fake types of fruit for testing');
 create or replace table mytable2 like mytable;
-    
-insert into mytable values (1, 'apple'),(2, 'orange'),(5, 'grape'),(7, 'cantelope'),(9, 'pineapple'),(17, 'banana'),(21, 'tangerine');
-insert into mytable2 values (1, 'apple'),(3, 'orange'),(5, 'grape'),(7, 'strawberry'),(10, 'pineapple'),(17, 'banana'),(22, 'raspberry');
+
+insert into mytable values (1, 'apple'), (2, 'orange'), (5, 'grape'), (7, 'cantelope'), (9, 'pineapple'), (17, 'banana'), (21, 'tangerine');
+insert into mytable2 values (1, 'apple'), (3, 'orange'), (5, 'grape'), (7, 'strawberry'), (10, 'pineapple'), (17, 'banana'), (22, 'raspberry');
 
 -- select * from mytable;
 -- select * from mytable2;
@@ -49,8 +49,7 @@ def print_differences(session, table1: str,table2: str,field1: str,field2: str):
     list2 = df2[field2].to_list()
 
     return [item for item in list1 if item not in list2]
-$$
-;
+$$;
 
 call print_differences('MYTABLE2', 'MYTABLE', 'FRUITS', 'FRUITS');
 

@@ -1,2 +1,2 @@
-SELECT * FROM database.schema.table
-QUALIFY COUNT(*) OVER (PARTITION BY primary_key) > 1;
+select * from my_table
+qualify count(*) over (partition by primary_key) > 1;

@@ -1,9 +1,9 @@
 /* How to clone data in Snowflake
 By: Martin Palkovic
-Date: 2022-06-10 
+Date: 2022-06-10
 
-Description: Zero copy cloning is one of the awesome features of Snowflake. 
-I like to use this feature to quickly create a development environment for 
+Description: Zero copy cloning is one of the awesome features of Snowflake.
+I like to use this feature to quickly create a development environment for
 testing */
 
 use role sysadmin;

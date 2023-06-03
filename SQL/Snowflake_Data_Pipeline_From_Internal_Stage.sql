@@ -25,7 +25,7 @@ list @my_stage;
 create or replace file format my_file_format
 type = 'CSV'
 field_delimiter = ','
-replace_invalid_characters = TRUE
+replace_invalid_characters = true
 null_if = ('');
 
 /* create stored procedure */
@@ -53,15 +53,15 @@ begin
 
     return 'Successfully loaded data into MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER';
  end;
- $$
-;
+ $$;
 
 /* create task */
 create or replace task dim_customer
-    warehouse = LOAD_WH
+    warehouse = load_wh
     schedule = 'using cron 30 9 * * * UTC'
-    comment = 'Truncates MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER, loads all rows of the dimcustomer table from Azure SQL and deletes the csv from the staging area'
-    as
+    comment
+    = 'Truncates MY_DEV_DATABASE.MY_SCHEMA.DIMCUSTOMER, loads all rows of the dimcustomer table from Azure SQL and deletes the csv from the staging area'
+as
     call dim_customer_pipeline();
 
 /* grant execute task priveleges to role sysadmin */
@@ -73,5 +73,5 @@ use role sysadmin;
 alter task dim_customer resume;
 
 /* confirm that the tasks are working */
- show tasks;
- select * from table(information_schema.task_history()) order by scheduled_time;
+show tasks;
+select * from table(information_schema.task_history()) order by scheduled_time;

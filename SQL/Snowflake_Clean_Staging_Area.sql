@@ -9,38 +9,40 @@
 -- files from here. Append this stored procedure call as the last step in your pipeline
 -- to keep your staging area clean
 /*******************************************************************/
-USE WAREHOUSE REPORTING_WH;
-USE DATABASE STAGING_DEV;
-USE SCHEMA NS_LANDING;
+use warehouse REPORTING_WH;
+use database STAGING_DEV;
+use schema NS_LANDING;
 
-CREATE OR REPLACE PROCEDURE sp_clean_stage( stage_name VARCHAR, DAYS number, DRY_RUN boolean )
-RETURNS varchar
-LANGUAGE sql
-EXECUTE AS CALLER
-AS
+create or replace procedure sp_clean_stage(
+    stage_name varchar, DAYS number, DRY_RUN boolean
+)
+returns varchar
+language sql
+execute as caller
+as
 $$
-DECLARE
-    ListFiles RESULTSET;
-    LastModified DATE;
-    RemovedCount NUMBER := 0;
-    TotalCount NUMBER := 0;
-BEGIN
-    ListFiles := (EXECUTE IMMEDIATE 'LS @' || stage_name );
-    LET C1 CURSOR FOR ListFiles; 
-    FOR files IN C1 DO
+declare
+    ListFiles resultset;
+    LastModified date;
+    RemovedCount number := 0;
+    TotalCount number := 0;
+begin
+    ListFiles := (execute immediate 'ls @' || stage_name );
+    let C1 cursor for ListFiles; 
+    for files in C1 do
        TotalCount := TotalCount + 1;
-       LastModified := TO_DATE(LEFT( files."last_modified", LENGTH(files."last_modified") - 4 ), 'DY, DD MON YYYY HH24:MI:SS' );
-       IF (LastModified <= DATEADD( 'day', -1 * DAYS, current_timestamp())) THEN 
+       LastModified := to_date(left( files."last_modified", length(files."last_modified") - 4 ), 'DY, DD MON YYYY HH24:MI:SS' );
+       if (LastModified <= dateadd( 'day', -1 * days, current_timestamp())) then 
             RemovedCount := RemovedCount + 1;                
-            IF (NOT DRY_RUN) THEN
-                EXECUTE IMMEDIATE 'RM @' || files."name";
-            END IF;
-       END IF;
-    END FOR;
-    RETURN RemovedCount || ' of ' || TotalCount || ' files ' || IFF(DRY_RUN,'will be','were') || ' deleted.';
-END;
+            if (not dry_run) then
+                execute immediate 'rm @' || files."name";
+            end if;
+       end if;
+    end for;
+    return RemovedCount || ' of ' || TotalCount || ' files ' || iff(dry_run,'will be','were') || ' deleted.';
+end;
 $$;
 
 -- Run Stored Procedure
--- USE DATABASE STAGING_PROD;
--- CALL sp_clean_stage('your_stage_here', 14, false);
+-- use database my_db;
+-- call sp_clean_stage('my_stage', 14, false);

@@ -41,7 +41,7 @@ df_sql.head()
 foi = 'Item_Key'
 print('{} maximum record length ='.format(foi),
         max(df_sql[foi].astype(str).map(len)), 'characters')
->>> Item_Key maximum record length = 19 characters
+# Output: Item_Key maximum record length = 19 characters
 
 #Or run a for loop to get values for every column:
 for c in df_sql.columns:

@@ -18,3 +18,4 @@ pyspark
 snowflake-snowpark-python
 scikit-learn
 ruff
+sqlfluff
