@@ -114,7 +114,8 @@
 				"innoverio.vscode-dbt-power-user",
 				"redhat.vscode-xml",
 				"adpyke.vscode-sql-formatter",
-				"inferrinizzard.prettier-sql-vscode"
+				"inferrinizzard.prettier-sql-vscode",
+				"github.vscode-github-actions"
 			]
 		}
 	},
