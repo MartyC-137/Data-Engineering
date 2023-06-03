@@ -55,7 +55,7 @@ create database test_db;
 """create a list of each table in the database, 
 and remove table names from the list that contain numbers 
 (i.e duplicates/backups with dates on the end)
-If you only want certain tables, you can manipulate this list however you like. 
+If you only want certain tables, you can manipulate this list however you like. TESTING LONG LINE
 Only table names on this list will be queried from your prod database in the 
 for loop below"""
 prod_tables = [table for table in prod_engine.table_names()]
