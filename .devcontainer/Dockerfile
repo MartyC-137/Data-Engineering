@@ -27,6 +27,7 @@ RUN ARCH="$(dpkg --print-architecture)"; \
 
 ENV PATH=$PATH:/usr/local/pwsh
 
+
 RUN echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | tee /etc/apt/sources.list.d/shells:fish:release:3.list; \
     curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null; \
     apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -56,6 +57,9 @@ RUN pwsh -Command Install-Module posh-git -Scope AllUsers -Force; \
 
 # add the oh-my-posh path to the PATH variable
 ENV PATH "$PATH:/home/${USERNAME}/bin"
+
+# Add vscode default dir to the PATH variable
+ENV PATH "$PATH:/home/vscode/.local/bin"
 
 # Can be used to override the devcontainer prompt default theme:
 ENV POSH_THEME="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/night-owl.omp.json"
