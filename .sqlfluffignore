@@ -1,3 +1,5 @@
+# SQLFluff doesn't work well with Snowflake loops, functions 
+# or Python stored procedures. Ignoring those files here
 Snowflake_ForLoop_GrantPermissions.sql
 Snowflake_Python_Stored_Procedure_Example.sql
 Snowflake_Shorten_Huge_Union_Queries.sql
