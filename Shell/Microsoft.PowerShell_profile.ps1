@@ -31,17 +31,18 @@ function PassGen {
 # Alias for PassGen
 Set-Alias -Name pg -Value PassGen
 
-# Create and open file in VS Code
+# ---
 
+# Create and open file in VS Code
 function Create-OpenInVSCode {
     param (
         [Parameter(Mandatory = $true)]
         [String]$newfile
     )
-    
-    # Create new file and open in VS Code
+
     code (new-item $newfile)
 }
+
 # Aliases for Create-OpenInVSCode
 Set-Alias -Name new-file -Value Create-OpenInVSCode
 Set-Alias -Name nf -Value Create-OpenInVSCode
