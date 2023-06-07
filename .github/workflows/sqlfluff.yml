@@ -1,4 +1,4 @@
-name: SQLFluff CI
+name: SQLFluff
 
 on: [push, pull_request]
 
