@@ -23,8 +23,8 @@ This repository contains numerous work examples of code I use in my day to day w
   <img src="https://seeklogo.com/images/D/dbt-logo-E4B0ED72A2-seeklogo.com.png" title="dbt" alt="dbt" width="100" height="40"/>&nbsp;
 </div>
 
-| [![Linkedin Badge](https://img.shields.io/badge/-Martin-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/mpalkovic/) | [![Resume Badge](https://img.shields.io/badge/-Resume-blue?style=flat&logo=Resume&logoColor=white)](https://my.visualcv.com/martin-palkovic/) |
-|---|---|
+[![Linkedin Badge](https://img.shields.io/badge/-Martin-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/mpalkovic/)
+[![Resume Badge](https://img.shields.io/badge/-Resume-blue?style=flat&logo=Resume&logoColor=white)](https://my.visualcv.com/martin-palkovic/)
 
 ### Table of Contents
 * [Python Examples](https://github.com/MartyC-137/Data-Engineering/tree/main/Python)
