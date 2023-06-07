@@ -1,4 +1,4 @@
-name: SQLFluff
+name: SQLFluff Testing
 
 on: [push, pull_request]
 
