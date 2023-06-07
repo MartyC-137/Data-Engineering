@@ -10,6 +10,7 @@
 
 ![Python CI](https://github.com/MartyC-137/Data-Engineering/actions/workflows/ruff-ci.yml/badge.svg)
 ![SQL CI](https://github.com/MartyC-137/Data-Engineering/actions/workflows/sqlfluff-ci.yml/badge.svg)
+[![Actions Status](https://github.com/MartyC-137/Data-Engineering/actions/badge.svg)](https://github.com/MartyC-137/Data-Engineering/actions)
 
 ---
 
