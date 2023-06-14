@@ -42,6 +42,7 @@ This repository contains numerous work examples of code I use in my day to day w
     - [Find missing dates in a date field - Snowflake](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Find_Missing_Dates.sql)
     - [Snowflake data pipeline from internal stage](https://github.com/MartyC-137/Data-Engineering/blob/main/SQL/Snowflake_Data_Pipeline_From_Internal_Stage.sql)
 * [Snowflake CI/CD using Azure Pipelines - SQLFluff testing, build and deploy using SnowSQL](https://github.com/MartyC-137/Data-Engineering/tree/main/SnowSQL_CICD)
+* [SQLFluff and yamllint pipelines for a dbt project](https://github.com/MartyC-137/Data-Engineering/tree/main/CI_Examples)
 
 ---
 
@@ -49,8 +50,8 @@ This repository contains numerous work examples of code I use in my day to day w
 
 ```bash
 # Clone the repository
-git clone https://github.com/MartyC-137/Data-Engineering.git
+$ git clone https://github.com/MartyC-137/Data-Engineering.git
 
 # Connect to the repository
-cd Data-Engineering
+$ cd Data-Engineering
 ```
