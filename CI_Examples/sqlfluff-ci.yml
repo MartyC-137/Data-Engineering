@@ -48,14 +48,17 @@ jobs:
       - script: |
           sqlfluff --version
           echo "All changes in this commit:"
-          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.sql || echo "No SQL files changed."
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.sql$' || echo "No SQL files changed."
         displayName: Test SQLFluff Install, List all .sql files
 
       # Lint SQL
       - script: |
-          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.sql' | while read -r filename; do
-            if [[ -f "$filename" ]]; then
-              sqlfluff lint "$filename" --dialect snowflake
+          changed = git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.sql$'
+
+          if [[ "${#changed[@]}" -gt 0 ]]; then
+            for filename in "${#changed[@]}"; do
+              if [[ -f "$filename" ]]; then
+                echo "linting $filename" && sqlfluff lint "$filename" --dialect snowflake
             else
               echo "File not found: $filename"
             fi

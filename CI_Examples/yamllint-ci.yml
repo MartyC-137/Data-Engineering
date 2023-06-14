@@ -48,15 +48,18 @@ jobs:
       - script: |
           yamllint --version
           echo "All changes in this commit:"
-          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.yml ||
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml$' ||
           echo "No YAML files changed."
         displayName: Test yamllint Install, List all .yml files
 
       # Lint YAML
       - script: |
-          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml' | while read -r filename; do
-            if [[ -f "$filename" ]]; then
-              yamllint "$filename"
+          changed = git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml$'
+
+          if [[ "${#changed[@]}" -gt 0 ]]; then
+            for filename in "${#changed[@]}"; do
+              if [[ -f "$filename" ]]; then
+                echo "linting $filename" && yamllint "$filename"
             else
               echo "File not found: $filename"
             fi
