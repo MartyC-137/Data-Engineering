@@ -1,0 +1,48 @@
+# Azure CI pipeline that lints all SQL files during a PR.
+# See the SQLFluff GitHub for more info: [SQLFluff](https://github.com/sqlfluff/sqlfluff)
+name: SQLFluff PR Check
+
+parameters:
+  - name: jobName
+    default: 'SQLFluffPR'
+  - name: jobDisplay
+    default: 'Lint repo with SQLFluff'
+
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 10
+    displayName: ${{ parameters.jobDisplay }}
+
+    workspace:
+      clean: outputs
+
+    steps:
+      # Checkout repo
+      - checkout: self
+        fetchDepth: 1
+        clean: true
+
+      # Install SQLFluff
+      - script: |
+          pip install --upgrade pip
+          pip install sqlfluff
+        displayName: Download and Install SQLFluff
+
+      # Test SQLFluff Installation and list all files in repo
+      - script: |
+          sqlfluff --version
+          git ls-files | grep \.sql
+        displayName: Test SQLFluff Install, List all files for CI
+
+      # Lint SQL
+      - script: |
+          git ls-files | grep \.sql | sqlfluff lint --dialect snowflake
+        displayName: Analyzing the code with SQLFluff

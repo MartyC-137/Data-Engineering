@@ -1,0 +1,63 @@
+# Azure CI pipeline that lints new/modified SQL files after every push to a git repository.
+# See the SQLFluff GitHub for more info: [SQLFluff](https://github.com/sqlfluff/sqlfluff)
+name: SQLFluff Continuous Integration
+
+parameters:
+  - name: jobName
+    default: 'SQLFluffCI'
+  - name: jobDisplay
+    default: 'Lint .sql files with SQLFluff'
+
+trigger:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 10
+    displayName: ${{ parameters.jobDisplay }}
+
+    workspace:
+      clean: outputs
+
+    steps:
+      # Checkout repo
+      - checkout: self
+        fetchDepth: 0
+        clean: true
+
+      # List Pipeline directory and Build Source Version
+      - script: |
+          ls -R $(System.DefaultWorkingDirectory)
+        displayName: List directory contents
+
+      - script: |
+          echo "Build.SourceVersion: $(Build.SourceVersion)"
+        displayName: Print Build.SourceVersion
+
+      # Install SQLFluff
+      - script: |
+          pip install sqlfluff
+        displayName: Install SQLFluff
+
+      # Test SQLFluff Installation and list all .sql files in repo
+      - script: |
+          sqlfluff --version
+          echo "All changes in this commit:"
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.sql || echo "No SQL files changed."
+        displayName: Test SQLFluff Install, List all .sql files
+
+      # Lint SQL
+      - script: |
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.sql' | while read -r filename; do
+            if [[ -f "$filename" ]]; then
+              sqlfluff lint "$filename" --dialect snowflake
+            else
+              echo "File not found: $filename"
+            fi
+          done
+        displayName: Lint .sql files

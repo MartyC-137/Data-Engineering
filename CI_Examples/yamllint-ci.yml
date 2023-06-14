@@ -1,0 +1,64 @@
+# Azure CI pipeline that lints YAML files in the dbt repository.
+# See the yamllint GitHub for more info: [yamllint](https://github.com/adrienverge/yamllint)
+name: yamllint Continuous Integration
+
+parameters:
+  - name: jobName
+    default: 'YAMLLintCI'
+  - name: jobDisplay
+    default: 'Lint .yml files with YAMLLint'
+
+trigger:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: ${{ parameters.jobName}}
+    timeoutInMinutes: 10
+    displayName: ${{ parameters.jobDisplay }}
+
+    workspace:
+      clean: outputs
+
+    steps:
+      # Checkout repo
+      - checkout: self
+        fetchDepth: 0
+        clean: true
+
+      # List Pipeline directory and Build Source Version
+      - script: |
+          ls -R $(System.DefaultWorkingDirectory)
+        displayName: List directory contents
+
+      - script: |
+          echo "Build.SourceVersion: $(Build.SourceVersion)"
+        displayName: Print Build.SourceVersion
+
+      # Install yamllint
+      - script: |
+          pip install yamllint
+        displayName: Install yamllint
+
+      # Test yamllint Installation and list all .yml files in repo
+      - script: |
+          yamllint --version
+          echo "All changes in this commit:"
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep \.yml ||
+          echo "No YAML files changed."
+        displayName: Test yamllint Install, List all .yml files
+
+      # Lint YAML
+      - script: |
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml' | while read -r filename; do
+            if [[ -f "$filename" ]]; then
+              yamllint "$filename"
+            else
+              echo "File not found: $filename"
+            fi
+          done
+        displayName: Lint .yml files
