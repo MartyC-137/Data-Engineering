@@ -7,19 +7,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-    - name: Install dependencies
-      run: pip install ruff
+      - name: Install dependencies
+        run: pip install ruff
 
-    - name: Test Ruff installation
-      run: ruff --version
+      - name: Test Ruff installation
+        run: ruff --version
 
-    - name: Run ruff
-      run: ruff check ./Python/
+      - name: Run ruff
+        run: ruff check ./Python/

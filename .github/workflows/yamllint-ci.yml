@@ -7,16 +7,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-    - name: Install yamllint
-      run: pip install yamllint
+      - name: Install yamllint
+        run: pip install yamllint
 
-    - name: Run yamllint
-      run: git ls-files | grep \.yml | yamllint .
+      - name: Run yamllint
+        run: git ls-files | grep \.yml | yamllint .

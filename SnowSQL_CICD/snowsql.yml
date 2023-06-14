@@ -5,62 +5,62 @@
 name: Snowflake CD Pipeline
 
 variables:
-- group: SnowSQL
-- name: artifactName
-  value: 'snowflakeTest'
-- name: vmImage
-  value: 'ubuntu-latest'  
+  - group: SnowSQL
+  - name: artifactName
+    value: 'snowflakeTest'
+  - name: vmImage
+    value: 'ubuntu-latest'
 
 trigger:
   branches:
     include:
-    - main
+      - main
 
 stages:
-- stage: Build
-  jobs:
-  - template: build.yml
-    parameters:
-      jobName: 'BuildSnowflakeObjects'
-      artifactName: $(artifactName)
-      vmImage: $(vmImage)
+  - stage: Build
+    jobs:
+    - template: build.yml
+      parameters:
+        jobName: 'BuildSnowflakeObjects'
+        artifactName: $(artifactName)
+        vmImage: $(vmImage)
 
-- stage: DEV
-  variables:
-  - name: database
-    value: DEV
-  - name: schema
-    value: misc
-  jobs:
-  - template: deploy.yml
-    parameters:
-      jobName: DEV
-      databaseName: $(database)
-      vmImage: $(vmImage)
-      environmentName: DEV
+  - stage: DEV
+    variables:
+    - name: database
+      value: DEV
+    - name: schema
+      value: misc
+    jobs:
+    - template: deploy.yml
+      parameters:
+        jobName: DEV
+        databaseName: $(database)
+        vmImage: $(vmImage)
+        environmentName: DEV
 
-- stage: QA
-  variables:
-  - name: database
-    value: QA
-  - name: schema
-    value: misc
-  jobs:
-  - template: deploy.yml
-    parameters:
-      jobName: QA
-      databaseName: $(database)
-      vmImage: $(vmImage)
-      environmentName: QA
+  - stage: QA
+    variables:
+    - name: database
+      value: QA
+    - name: schema
+      value: misc
+    jobs:
+    - template: deploy.yml
+      parameters:
+        jobName: QA
+        databaseName: $(database)
+        vmImage: $(vmImage)
+        environmentName: QA
 
-- stage: PROD
-  variables:
-  - name: database
-    value: PROD
-  jobs:
-  - template: deploy.yml
-    parameters:
-      jobName: PROD
-      databaseName: $(database)
-      vmImage: $(vmImage)
-      environmentName: PROD
+  - stage: PROD
+    variables:
+    - name: database
+      value: PROD
+    jobs:
+    - template: deploy.yml
+      parameters:
+        jobName: PROD
+        databaseName: $(database)
+        vmImage: $(vmImage)
+        environmentName: PROD

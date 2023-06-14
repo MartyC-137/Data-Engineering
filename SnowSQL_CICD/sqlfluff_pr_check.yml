@@ -12,33 +12,33 @@ parameters:
 pr:
   branches:
     include:
-    - main
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-- job: ${{ parameters.jobName }}
-  timeoutInMinutes: 10
-  displayName: ${{ parameters.jobDisplay }}
+  - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 10
+    displayName: ${{ parameters.jobDisplay }}
 
-  workspace:
-    clean: outputs
+    workspace:
+      clean: outputs
 
-  steps:
+    steps:
 
     # Checkout repo
-  - checkout: self
-    fetchDepth: 10
-    clean: true
+    - checkout: self
+      fetchDepth: 10
+      clean: true
 
-    # Download and Install SnowSQL CLI
-  - script: |
-      pip install --upgrade pip
-      pip install sqlfluff
-    displayName: Download and Install SQLFLuff
+      # Download and Install SnowSQL CLI
+    - script: |
+        pip install --upgrade pip
+        pip install sqlfluff
+      displayName: Download and Install SQLFLuff
 
-    # Lint SQL
-  - script: |
-      git ls-files | grep \.sql | sqlfluff lint --dialect snowflake
-    displayName: Analyzing the code with SQLFluff
+      # Lint SQL
+    - script: |
+        git ls-files | grep \.sql | sqlfluff lint --dialect snowflake
+      displayName: Analyzing the code with SQLFluff
