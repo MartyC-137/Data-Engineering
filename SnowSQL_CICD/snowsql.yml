@@ -19,48 +19,48 @@ trigger:
 stages:
   - stage: Build
     jobs:
-    - template: build.yml
-      parameters:
-        jobName: 'BuildSnowflakeObjects'
-        artifactName: $(artifactName)
-        vmImage: $(vmImage)
+      - template: build.yml
+        parameters:
+          jobName: 'BuildSnowflakeObjects'
+          artifactName: $(artifactName)
+          vmImage: $(vmImage)
 
   - stage: DEV
     variables:
-    - name: database
-      value: DEV
-    - name: schema
-      value: misc
+      - name: database
+        value: DEV
+      - name: schema
+        value: misc
     jobs:
-    - template: deploy.yml
-      parameters:
-        jobName: DEV
-        databaseName: $(database)
-        vmImage: $(vmImage)
-        environmentName: DEV
+      - template: deploy.yml
+        parameters:
+          jobName: DEV
+          databaseName: $(database)
+          vmImage: $(vmImage)
+          environmentName: DEV
 
   - stage: QA
     variables:
-    - name: database
-      value: QA
-    - name: schema
-      value: misc
+      - name: database
+        value: QA
+      - name: schema
+        value: misc
     jobs:
-    - template: deploy.yml
-      parameters:
-        jobName: QA
-        databaseName: $(database)
-        vmImage: $(vmImage)
-        environmentName: QA
+      - template: deploy.yml
+        parameters:
+          jobName: QA
+          databaseName: $(database)
+          vmImage: $(vmImage)
+          environmentName: QA
 
   - stage: PROD
     variables:
-    - name: database
-      value: PROD
+      - name: database
+        value: PROD
     jobs:
-    - template: deploy.yml
-      parameters:
-        jobName: PROD
-        databaseName: $(database)
-        vmImage: $(vmImage)
-        environmentName: PROD
+      - template: deploy.yml
+        parameters:
+          jobName: PROD
+          databaseName: $(database)
+          vmImage: $(vmImage)
+          environmentName: PROD

@@ -19,8 +19,8 @@ jobs:
     workspace:
       clean: outputs
     steps:
-    # Publish artifacts
-    - publish: $(System.DefaultWorkingDirectory)
-      artifact: ${{ parameters.artifactName }}
-      name: Artifacts
-      displayName: Publish pipeline artifacts
+      # Publish artifacts
+      - publish: $(System.DefaultWorkingDirectory)
+        artifact: ${{ parameters.artifactName }}
+        name: Artifacts
+        displayName: Publish pipeline artifacts
