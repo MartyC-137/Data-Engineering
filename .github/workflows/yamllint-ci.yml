@@ -1,4 +1,4 @@
-name: SQLFluff Testing
+name: yamllint testing
 
 on: [push, pull_request]
 
