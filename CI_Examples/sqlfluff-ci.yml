@@ -56,7 +56,7 @@ jobs:
           changed=( $(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.sql$') )
 
           if [[ "${#changed[@]}" -gt 0 ]]; then
-            for filename in "${#changed[@]}"; do
+            for filename in "${changed[@]}"; do
               if [[ -f "$filename" ]]; then
                 echo "linting $filename" && sqlfluff lint "$filename" --dialect snowflake
               else

@@ -57,7 +57,7 @@ jobs:
           changed=( $(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml$') )
 
           if [[ "${#changed[@]}" -gt 0 ]]; then
-            for filename in "${#changed[@]}"; do
+            for filename in "${changed[@]}"; do
               if [[ -f "$filename" ]]; then
                 echo "linting $filename" && yamllint "$filename"
               else
