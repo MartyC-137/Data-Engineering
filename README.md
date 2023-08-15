@@ -4,10 +4,6 @@
     <img src="https://i.redd.it/w1m3or6z66j51.jpg" width="400"/>
 </div>
 
-[![forthebadge](https://forthebadge.com/images/badges/compatibility-pc-load-letter.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/kinda-sfw.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/approved-by-george-costanza.svg)](https://forthebadge.com)
-
 [![Ruff](https://github.com/MartyC-137/Data-Engineering/actions/workflows/ruff.yml/badge.svg)](https://github.com/MartyC-137/Data-Engineering/actions/workflows/ruff.yml)
 [![SQLFluff](https://github.com/MartyC-137/Data-Engineering/actions/workflows/sqlfluff.yml/badge.svg)](https://github.com/MartyC-137/Data-Engineering/actions/workflows/sqlfluff.yml)
 
