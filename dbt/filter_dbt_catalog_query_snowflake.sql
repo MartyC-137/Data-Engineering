@@ -1,23 +1,24 @@
 {% macro snowflake__get_catalog(information_schema, schemas) -%}
 
-    {%- set relations_in_project = [] -%}
+{%- set relations_in_project = [] -%}
 
-    {%- for node in graph.nodes.values() -%}
-        {%- if node.resource_type == 'model' -%}
-        {%- do relations_in_project.append(node.alias) -%}
-        {%- endif -%}
-    {%- endfor -%}
-    {%- for source in graph.sources.values() -%}
-        {%- do relations_in_project.append(source.name) -%}
-    {%- endfor -%}
+{%- for node in graph.nodes.values() -%}
+{%- if node.resource_type == 'model' -%}
+{%- do relations_in_project.append(node.alias) -%}
+{%- endif -%}
+{%- endfor -%}
+{%- for source in graph.sources.values() -%}
+{%- do relations_in_project.append(source.name) -%}
+{%- endfor -%}
     
-    {%- set relations_in_project = set(relations_in_project) | list -%}
+{%- set relations_in_project = set(relations_in_project) | list -%}
 
-    {%- if (schemas | length) == 0 -%}
+{%- if (schemas | length) == 0 -%}
         {%- set query  = "select 1 as id limit 0" -%}
     {%- else -%}
 
-    {% set query %}
+{% set query %}
+            
         with tables as (
 
             select
@@ -50,14 +51,15 @@
             where row_count > 0
 
             and (
-                {%- for schema in schemas -%}
-                upper("table_schema") = upper('{{ schema }}') {%- if not loop.last %} or {% endif -%}
-                {%- endfor -%}
-            )
+{%- for schema in schemas -%}
+upper("table_schema") = upper('{{ schema }}') {%- if not loop.last %} or {% endif -%}
+{%- endfor -%}
+)
 
-            {%- if relations_in_project | length > 0 %}
+{%- if relations_in_project | length > 0 %}
+
             and coalesce(regexp_substr(table_name, '^(.+)_{1}[0-9]{8}$'), table_name) in (
-                {%- for rel in relations_in_project -%} upper('{{ rel }}') {%- if not loop.last %}, {% endif -%}{%- endfor -%}
+{%- for rel in relations_in_project -%} upper('{{ rel }}') {%- if not loop.last %}, {% endif -%}{%- endfor -%}
             )
             {% endif -%}
 
@@ -78,14 +80,15 @@
             from {{ information_schema }}.columns
 
             where (
-                {%- for schema in schemas -%}
-                upper("table_schema") = upper('{{ schema }}') {%- if not loop.last %} or {% endif -%}
-                {%- endfor -%}
-            )
+{%- for schema in schemas -%}
+upper("table_schema") = upper('{{ schema }}') {%- if not loop.last %} or {% endif -%}
+{%- endfor -%}
+)
 
-            {%- if relations_in_project | length > 0 %}
+{%- if relations_in_project | length > 0 %}
+
             and coalesce(regexp_substr(table_name, '^(.+)_{1}[0-9]{8}$'), table_name) in (
-                {%- for rel in relations_in_project -%} upper('{{ rel }}') {%- if not loop.last %}, {% endif -%}{%- endfor -%}
+{%- for rel in relations_in_project -%} upper('{{ rel }}') {%- if not loop.last %}, {% endif -%}{%- endfor -%}
             )
             {% endif -%}
 
@@ -95,16 +98,15 @@
 
         inner join columns using ("table_database", "table_schema", "table_name")
 
-        order by "column_index"
-
-    {%- endset -%}
+        order by "c
+        {%- endset -%}
 
     {%- endif -%}
 
-    {%- do log(query) -%}
-    {%- set results = run_query(query) -%}
-    {%- do log(schemas ~ ' - rows returned: ' ~ results | length, True) -%}
+{%- do log(query) -%}
+{%- set results = run_query(query) -%}
+{%- do log(schemas ~ ' - rows returned: ' ~ results | length, True) -%}
 
-    {{ return(results) }}
+{{ return(results) }}
 
 {%- endmacro %}
