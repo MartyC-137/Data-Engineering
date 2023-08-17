@@ -122,7 +122,7 @@ for database in connector_id_dict.keys():
 
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
 
-    """DO NOT UNCOMMENT THIS SECTION UNLESS YOU KNOW WHAT YOU'RE DOING"""
+    """Fivetran API call - comment this block if you are testing the script"""
     response = requests.patch(url,
                               json = payload,
                               headers = headers,
