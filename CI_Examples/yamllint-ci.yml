@@ -12,6 +12,8 @@ trigger:
   branches:
     include:
       - '*'
+    exclude:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -55,7 +57,6 @@ jobs:
       # Lint YAML
       - script: |
           changed=( $(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml$') )
-
           if [[ "${#changed[@]}" -gt 0 ]]; then
             for filename in "${changed[@]}"; do
               if [[ -f "$filename" ]]; then
