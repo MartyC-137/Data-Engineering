@@ -1,0 +1,60 @@
+name: Python Pull Request Check
+
+parameters:
+  - name: jobName
+    default: 'PythonCI'
+  - name: jobDisplay
+    default: 'Lint repo with Ruff + run all unit tests'
+
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 30
+    displayName: ${{ parameters.jobDisplay }}
+
+    workspace:
+      clean: outputs
+
+    steps:
+      # Checkout repo
+      - checkout: self
+        fetchDepth: 1
+        clean: true
+
+      # Install Ruff
+      - script: |
+          pip install pytest pytest-azurepipelines pytest-cov ruff
+        displayName: Install Pytest, Pytest Code Coverage and Ruff
+
+      # Test Ruff Installation and list all files in repo
+      - script: |
+          echo "Ruff Version:" && ruff --version
+          echo "Pytest Version:" && pytest --version
+          echo "Pytest Coverage Version:" && pytest-cov --version
+          echo "Pytest Azure Pipelines Version:" && pytest-azurepipelines --version
+          git ls-files | grep '\.py$'
+        displayName: Test Installs, List all files for CI
+
+      # Lint SQL
+      - script: |
+          git ls-files | grep '\.py$' | ruff check .
+        displayName: Analyzing the code with Ruff
+        continueOnError: true
+
+      - script: |
+          pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
+        displayName: Run all Python unit tests
+        condition: always()
+        continueOnError: false
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'

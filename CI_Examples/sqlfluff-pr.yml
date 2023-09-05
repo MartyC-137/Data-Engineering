@@ -18,7 +18,7 @@ pool:
 
 jobs:
   - job: ${{ parameters.jobName }}
-    timeoutInMinutes: 10
+    timeoutInMinutes: 30
     displayName: ${{ parameters.jobDisplay }}
 
     workspace:
@@ -32,7 +32,6 @@ jobs:
 
       # Install SQLFluff
       - script: |
-          pip install --upgrade pip
           pip install sqlfluff
         displayName: Download and Install SQLFluff
 

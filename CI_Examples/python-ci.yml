@@ -1,0 +1,68 @@
+name: Python Continuous Integration
+
+parameters:
+  - name: jobName
+    default: 'PythonCI'
+  - name: jobDisplay
+    default: 'Lint .py files with Ruff'
+
+trigger:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 10
+    displayName: ${{ parameters.jobDisplay }}
+
+    workspace:
+      clean: outputs
+
+    steps:
+      # Checkout repo
+      - checkout: self
+        fetchDepth: 0
+        clean: true
+
+      # List Pipeline directory and Build Source Version
+      - script: |
+          ls -R $(System.DefaultWorkingDirectory)
+        displayName: List directory contents
+
+      - script: |
+          echo "Build.SourceVersion: $(Build.SourceVersion)"
+        displayName: Print Build.SourceVersion
+
+      # Install Ruff
+      - script: |
+          pip install ruff
+        displayName: Install Ruff
+
+      # Test Ruff Installation and list all .py files in repo
+      - script: |
+          ruff --version
+          echo "All changes in this commit:"
+          git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.py$' ||
+          echo "No Python files changed."
+        displayName: Test Ruff Install, List all .py files
+
+      # Lint Python
+      - script: |
+          changed=( $(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.py$') )
+
+          if [[ "${#changed[@]}" -gt 0 ]]; then
+            for filename in "${changed[@]}"; do
+              if [[ -f "$filename" ]]; then
+                echo "linting $filename" && ruff check "$filename"
+              else
+                echo "File not found: $filename"
+              fi
+            done
+          fi
+        displayName: Lint .py files

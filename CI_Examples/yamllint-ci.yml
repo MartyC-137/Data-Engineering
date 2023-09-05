@@ -58,12 +58,17 @@ jobs:
       - script: |
           changed=( $(git diff-tree --no-commit-id --name-only -r $(Build.SourceVersion) | grep '\.yml$') )
           if [[ "${#changed[@]}" -gt 0 ]]; then
+            failed=false
             for filename in "${changed[@]}"; do
               if [[ -f "$filename" ]]; then
-                echo "linting $filename" && yamllint "$filename"
+                echo "linting $filename"
+                yamllint "$filename" || failed=true
               else
                 echo "File not found: $filename"
               fi
             done
+            if [[ $failed == true ]]; then
+              exit 1
+            fi
           fi
         displayName: Lint .yml files
